@@ -1,0 +1,15 @@
+{
+	"feeds": [
+		{
+			"title": "Example Feed",
+			"link": "https://planet.pidgin.im/",
+			"description": "My Example RSS Feed",
+			"file": "example.rss",
+			"itemregex": "<h2><a href=\"(.*?)\">(.*?)<\/a><\/h2>.*?<div class=\"post\">(.*?)</div>",
+			"maxitems": 30,
+			"titleidx": 1,
+			"linkidx": 0,
+			"descidx": 2
+		}
+	]
+}

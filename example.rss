@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+ xmlns:blogChannel="http://backend.userland.com/blogChannelModule"
+>
+
+<channel>
+<title>Example Feed</title>
+<link>https://planet.pidgin.im/</link>
+<description>My Example RSS Feed</description>
+<lastBuildDate>Sun, 10 Aug 2014 15:05:18 +0000</lastBuildDate>
+
+<item>
+<title>More Windows, more features</title>
+<link>https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2014/more-windows-more-features/</link>
+<description>
+&#x3C;p&#x3E;With a great help from LRN, who sent initial set of patches for fixing autotools-based build for win32 and assisted in the work, I have finally managed to make 3.0.0 cross compilation possible and easy. It also involved fixing minor win32 problems and enabling features that were not accessible for this platform before.&#x3C;span id=&#x22;more-872&#x22;&#x3E;&#x3C;/span&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;The most important change is making linux-to-windows cross-compilation almost as easy as normal build. The whole effort (not counting installation of mingw* packages) is reduced to setting two environmental variables (&#x3C;code&#x3E;PKG_CONFIG&#x3C;/code&#x3E; and &#x3C;code&#x3E;PKG_CONFIG_PATH&#x3C;/code&#x3E;) and adding a single switch to the configure script: &#x3C;code&#x3E;./configure --host=i686-w64-mingw32 &#x26;amp;&#x26;amp; make&#x3C;/code&#x3E;. That&#x26;#8217;s all! For now, there is no option to cross-build the installer yet.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;&#x3C;a href=&#x22;https://blog.wasilczyk.pl/wp-content/uploads/2014/05/finch-win32.png&#x22;&#x3E;&#x3C;img src=&#x22;https://blog.wasilczyk.pl/wp-content/uploads/2014/05/finch-win32-300x193.png&#x22; alt=&#x22;Finch working on Windows&#x22; width=&#x22;300&#x22; height=&#x22;193&#x22; class=&#x22;alignright size-medium wp-image-883&#x22; /&#x3E;&#x3C;/a&#x3E; On the other hand, the most end-user-attractive change is a Finch win32 build. It required both libgnt and Finch fixes, which made those two quite usable on this system.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Moreover, I finally implemented all remaining features required for using OTR plugin with Finch. There is still one missing &#x26;#8211; you cannot browse key list yet, but it&#x26;#8217;s not crucial for a daily use. This change is not related to Windows and there may be minor problems when running the new OTR plugin on win32, but I will face all of them by the chance of integrating it with Pidgin tree.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;An example of less significant, but still useful Windows related change is GTK3/gstreamer-1.0 compatibility, which was an easy to achieve with the fixed autotools build. I also removed the Bonjour SDK dependency from the win32 build, as there were license issues with it &#x26;#8211; for now, you can build Bonjour prpl without it.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;The last feature may be found useless by some of you, while some might like it &#x26;#8211; that&#x26;#8217;s why it&#x26;#8217;s optional. You can enable &#x3C;a href=&#x22;http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard&#x22;&#x3E;Filesystem Hierarchy Standard&#x3C;/a&#x3E; directory structure with a single configure switch: &#x3C;code&#x3E;--with-win32-dirs=fhs&#x3C;/code&#x3E;. For now, it&#x26;#8217;s the easiest way to prepare a working Windows build, since there is no cross-built installer yet.&#x3C;/p&#x3E;
+&#x3C;h2&#x3E;Few steps towards a stable release&#x3C;/h2&#x3E;
+&#x3C;p&#x3E;Pidgin 3 is not API/ABI compatible with Pidgin 2, and is only partially configuration-compatible. While the first incompatibility is necessary to move forward, the second might be really frustrating for users. Because of ABI incompatibility, libpurple2 plugins won&#x26;#8217;t work with libpurple3 &#x26;#8211; their authors will eventually convert them for the new version. Configuration incompatibility may lead to loosing your data &#x26;#8211; preferences, contacts etc.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Pidgin 3 was almost backward-compatible, which allowed to switch to it flawlessly. On the other hand, Pidgin 2 was not forward-compatible. For example, it dropped all encrypted passwords, that were set with Pidgin 3. Now, it won&#x26;#8217;t be able to read those (since keyring support is not implemented for 2.x.y branch), but at least it leaves them in place. I also fixed more forward-incompatibilities: handling for GTalk and Facebook XMPP accounts created with 3.0.0 version and internationalization issues related to default group (&#x26;#8220;Buddies&#x26;#8221;) naming. All of these will be released in 2.x.y branch, so you will be able to switch from 3.0.0 to 2.10.10 and back without loosing your data.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;There were also minor, but annoying issues fixed. Nick colors for chat participants in XMPP MUC or irc should not suffer from a low-contrast issue. I have finally made spell checking usable, by implementing a language selection sub menu for WebKitGTK. It still has some flaws, that I will work on some day: the biggest one is that the selected language is global, not per-conversation.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;To make development branch more stable, I decided to focus on Coverity bug reports. Since we are allowed to maintain just one branch at once, I decided to fix all 2.x.y reports before switching to 3.0.0. For now, I fixed almost all of them (and merged fixes to the 3.0.0 branch), so it should be a bit more stable. I also updated all win32 dependencies, which should also improve stability.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Don&#x26;#8217;t get me wrong, there is still a long way to the stable Pidgin 3.0.0. But it&#x26;#8217;s already usable right now.&#x3C;/p&#x3E;
+&#x3C;h2&#x3E;Show me your desktop&#x3C;/h2&#x3E;
+&#x3C;p&#x3E;&#x3C;img src=&#x22;https://blog.wasilczyk.pl/wp-content/uploads/2014/05/screencap-plugin.png&#x22; alt=&#x22;An example usage of Screen Capture plugin&#x22; width=&#x22;128&#x22; height=&#x22;102&#x22; class=&#x22;alignleft size-full wp-image-921&#x22; /&#x3E; I have switched from &#x3C;em&#x3E;Konnekt&#x3C;/em&#x3E; (a local Polish instant messenger) to Pidgin around the year 2007. It provided a feature absent in Pidgin, that I missed very much: an easy way to send screenshots. There were a plugin for Pidgin 2.x.y, but I didn&#x26;#8217;t liked it and it wasn&#x26;#8217;t working with Pidgin 3.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Ultimately, I decided to invest two days of my life and create my own plugin. It &#x3C;em&#x3E;just works&#x3C;/em&#x3E;, covering all attributes I liked in other instant messengers with such feature. It&#x26;#8217;s simple, stable and fits into the Pidgin UI well.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;I plan to extend its functionality with another plugin. For now, it&#x26;#8217;s only possible to send screenshots over protocols with inline images support. Thus, you can not use it with XMPP or IRC. The second plugin will allow for uploading images to imgur (or similar services) for protocols that doesn&#x26;#8217;t support images.&#x3C;/p&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2014/more-windows-more-features/</guid>
+</item>
+<item>
+<title>Smile!</title>
+<link>https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2014/smile/</link>
+<description>
+&#x3C;p&#x3E;I have put a lot of effort into a feature that I don&#x26;#8217;t even use: graphical emoticons. As usual, the small issue resulted in a large code refactoring. I had the task of fixing regression bugs from Pidgin 2.x.y, so I took care of broken remote smileys. It&#x26;#8217;s a pleasant feature, that allows defining the list of custom smileys to use in outgoing messages.&#x3C;span id=&#x22;more-763&#x22;&#x3E;&#x3C;/span&#x3E; If we send one in our message and the remote client doesn&#x26;#8217;t have it, the image will be automatically transferred. For protocols not supporting this feature, the bare textual representation will be shown instead of the picture.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;The code responsible for emoticon handling was horrid. In 2.x.y branch it was already quite messy, but became even worse after replacing GtkIMHtml with WebKitGTK for displaying a conversation. The problem was, the old parsing code was optimised to be used with GtkIMHtml. It was totally incompatible with WebKitGTK, so the GSoC student who did a conversion made his own provisional smiley parser. It just added insult to injury.&#x3C;/p&#x3E;
+&#x3C;h2&#x3E;Inline images&#x3C;/h2&#x3E;
+&#x3C;p&#x3E;Both GtkIMHtml and WebKitGTK use purple&#x26;#8217;s &#x26;#8220;stored images&#x26;#8221; to provide data for emoticon smiley. It&#x26;#8217;s a generic container to hold raw image file contents, without any decoding. Its main purpose was pretty simple: to reference this data by a single integer number. Thus, an image may be embedded in HTML with &#x3C;code&#x3E;&#x26;lt;img src=&#x22;purple-image:5&#x22;&#x26;gt;&#x3C;/code&#x3E;. It&#x26;#8217;s quite convenient, but the API was a bit messy. Not &#x3C;em&#x3E;that&#x3C;/em&#x3E; bad, but we had plans to convert it to a GObject. Instead of duplicating the exact behavior of the old implementation, I took the usual way: I wrote entirely new PurpleImage class, much richer, but also simpler to use.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;&#x3C;a href=&#x22;https://blog.wasilczyk.pl/wp-content/uploads/2014/04/pidgin-remote-images.png&#x22;&#x3E;&#x3C;img class=&#x22; wp-image-824 alignright&#x22; alt=&#x22;A conversation with remote smiley and remote inline image used&#x22; src=&#x22;https://blog.wasilczyk.pl/wp-content/uploads/2014/04/pidgin-remote-images.png&#x22; width=&#x22;223&#x22; height=&#x22;150&#x22; /&#x3E;&#x3C;/a&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;PurpleImages, aside from the old simple referencing feature, have several new ones. Remote images support is the one which improves end-user experience the most. It allows defining an empty image and providing a data for it later. Now, if we receive a message with an inline image embedded (not necessarily a smiley), it will be displayed without it and the image will be shown when ready &#x26;#8211; just like its done in web browsers. It heavily impacts protocol plugins: with the old API, they had to queue messages and wait for images being transferred. Now, it&#x26;#8217;s fully handled by libpurple. By the chance of deploying it, I fixed inline images support in every protocol that had it.&#x3C;/p&#x3E;
+&#x3C;h2&#x3E;Tries&#x3C;/h2&#x3E;
+&#x3C;p&#x3E;As I mentioned before, the smiley parser for 3.0.0 branch was provisional and the old one was not suitable for WebKitGTK. GtkIMHtml (a Pidgin 2.x.y component, despite its Gtk namespace) exposed its internal parsing mechanism and allowed to process every literal in parsed HTML. Thereby, a libpurple routine was called on every word and replaced them into an image, if hit the emoticon. The lookup was quite fast, because of trie-like implementation of GtkSmileyTree.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;&#x3C;img class=&#x22;size-full wp-image-828 alignright&#x22; title=&#x22;source: Wikipedia&#x22; alt=&#x22;An example of trie&#x22; src=&#x22;https://blog.wasilczyk.pl/wp-content/uploads/2014/04/trie-example.png&#x22; width=&#x22;192&#x22; height=&#x22;174&#x22; /&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;A &#x3C;a href=&#x22;https://en.wikipedia.org/wiki/Trie&#x22;&#x3E;Trie&#x3C;/a&#x3E; is a tree structure for holding multiple strings and searching them by prefixes. The primary idea of trie is that two strings with the common prefix will share the part of tree for the common segment and branch out the remaining parts. It&#x26;#8217;s only a fundamental part of structure, which may be used for completely different purposes. In fact, it was used both in the old GtkSmileyTree and my new smiley parser implementation. Except for this single similarity, these two are barely related.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Instead of writing fat-but-fast smiley parser, I decided to implement independent PurpleTrie class &#x26;#8211; a trie-based text search algorithm. It allows for searching multiple strings in multiple source texts in a linear time! To be precise, it needs &#x3C;em&#x3E;O(m)&#x3C;/em&#x3E; time for building a trie (where &#x3C;em&#x3E;m&#x3C;/em&#x3E; is the total length of provided patterns) and &#x3C;em&#x3E;O(n)&#x3C;/em&#x3E; time for searching (where &#x3C;em&#x3E;n&#x3C;/em&#x3E; is the length of source text). The frequency of patterns in a text doesn&#x26;#8217;t affect this value. The best thing in that structure is, it may also be used in libpurple plugins.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;For a contrast, the interim smiley parser implementation was not focused on performance at all. Its search time could be estimated as &#x3C;em&#x3E;O(n * m * t)&#x3C;/em&#x3E;, where &#x3C;em&#x3E;n&#x3C;/em&#x3E; is the number of smileys, &#x3C;em&#x3E;m&#x3C;/em&#x3E; is their length (assuming smileys are equal-length &#x26;#8211; in the real-world case the formula would be more complicated) and &#x3C;em&#x3E;t&#x3C;/em&#x3E; is the text length. It&#x26;#8217;s that bad, mainly because every supported (not necessarily inserted into a text) smiley is parsed separately. The &#x3C;em&#x3E;m&#xA0;*&#xA0;t&#x3C;/em&#x3E; part depends on &#x3C;code&#x3E;strstr&#x3C;/code&#x3E; implementation, but for the better ones we could find another similarly bad instance of smileys configuration. With such bad complexity, it could even be exploited for a denial-of-service attack.&#x3C;/p&#x3E;
+&#x3C;h2&#x3E;What&#x26;#8217;s next?&#x3C;/h2&#x3E;
+&#x3C;p&#x3E;In 3.0.0 branch there were a lot of smiley- and image-related issues and I haven&#x26;#8217;t described all of them. But I hope I fixed all of them. You can look for details in our hg, in smiley-related commits between &#x3C;a title=&#x22;rev 302a7cb4c1ab + 60&#x22; href=&#x22;http://hg.pidgin.im/pidgin/main/shortlog/05981ff3fb7b&#x22;&#x3E;302a7cb4c1ab&#x3C;/a&#x3E; and &#x3C;a href=&#x22;http://hg.pidgin.im/pidgin/main/shortlog/d598e7950c34&#x22;&#x3E;d598e7950c34&#x3C;/a&#x3E;. Now, I am focused on the permanent issue &#x26;#8211; the Windows version.&#x3C;/p&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2014/smile/</guid>
+</item>
+<item>
+<title>In Support of Instant Messaging Communications Freedom</title>
+<link>https://planet.pidgin.imhttps://kb8ojh.net/elb/musings/in-support-of-im-freedom.html</link>
+<description>
+&#x3C;p&#x3E;
+    As recent news events have driven home time after time, secure
+    communications is a difficult yet important aspect of modern life.
+    What &#x26;ldquo;secure&#x26;rdquo; may mean differs from person to person and
+    from topic to topic, but certainly the typical person is somewhat
+    uncomfortable with the idea that anyone &#x26;mdash; and in particular,
+    large corporations or the government &#x26;mdash; might be eavesdropping
+    on their casual communications.  There are exceptions, and there are
+    people who believe that only criminals should have something to
+    hide, but for the moment let&#x27;s assume that some measure of secrecy
+    in private communications is warranted and/or desirable.  This post
+    is a commentary on some of the technologies that make it possible
+    (or difficult or impossible, in many cases) to achieve secure
+    communications on an instant messaging (IM) network.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    I&#x27;m going to play a little bit fast and loose with terminology to
+    help keep it understandable, but I also want it to be accurate.  In
+    particular, when I say that communication is &#x3C;em&#x3E;secure&#x3C;/em&#x3E;, I
+    mean &#x3C;em&#x3E;private&#x3C;/em&#x3E;, specifically.  For the purposes of this post,
+    that effectively means encrypted and using some sort of
+    authentication protocol to ensure that it&#x27;s encrypted to the right
+    person.  The details are out of scope.
+    Please &#x3C;a href=&#x22;mailto:elb@kb8ojh.net&#x22;&#x3E;contact me&#x3C;/a&#x3E; if you notice
+    any particular discrepancies or incorrect statements, either arising
+    from loose terminology or other errors.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    First, where I&#x27;m coming from: I believe that essentially all
+    communications should be secured, and I believe that that security
+    should be very strong.  By &#x26;ldquo;very strong,&#x26;ldquo; I mean that it
+    should be effectively impossible for any third party to eavesdrop
+    without the acquiescence of a party participating in the
+    communication.  I have a fair amount of history in computer
+    communications.  I am a long time developer on the &#x3C;span&#x3E;&#x3C;a href=&#x22;https://pidgin.im/&#x22;&#x3E;&#x3C;span&#x3E;Pidgin&#x3C;/span&#x3E;&#x3C;/a&#x3E;
+    &#x3C;span&#x3E;instant messaging client&#x3C;/span&#x3E;&#x3C;/span&#x3E;
+    and related software.  I am on the board of directors for
+    &#x3C;span&#x3E;&#x3C;a href=&#x22;https://imfreedom.org/&#x22;&#x3E;&#x3C;span&#x3E;Instant
+    Messaging Freedom, Inc.&#x3C;/span&#x3E;&#x3C;/a&#x3E;, &#x3C;span&#x3E;a
+    non-profit organization &#x26;ldquo;whose goal is to support free instant
+    messaging software.&#x26;rdquo;&#x3C;/span&#x3E;&#x3C;/span&#x3E;  Instant messaging is
+    important to me as a communication technology filling the gap
+    between real-time spoken communication and e-mail.
+&#x3C;/p&#x3E;
+
+&#x3C;h3&#x3E;Types of IM security&#x3C;/h3&#x3E;
+&#x3C;p&#x3E;
+    There are a number of ways in which an IM conversation can be
+    &#x22;secured&#x22;, and not all of them have the same properties.  First,
+    there is using a &#x3C;em&#x3E;secure connection&#x3C;/em&#x3E;, such as SSL or TLS
+    between your computer and your IM service&#x27;s computer.  Second, there
+    is &#x3C;em&#x3E;end-to-end security&#x3C;/em&#x3E;, such
+    as &#x3C;span&#x3E;&#x3C;a href=&#x22;https://otr.cypherpunks.ca/&#x22;&#x3E;&#x3C;span&#x3E;Off-the-Record Messaging&#x3C;/span&#x3E;&#x3C;/a&#x3E;
+    (&#x3C;span&#x3E;OTR&#x3C;/span&#x3E;)&#x3C;/span&#x3E;.  Then there are
+    additional, more complicated options that we won&#x27;t discuss &#x26;mdash;
+    but they basically break down to a combination of one or the other
+    of the above, or one of the above with a different remote endpoint.
+    (\textit{E.g.,} end-to-end security between you and a remote user&#x27;s
+    IM server to query her current status.)
+&#x3C;/p&#x3E;
+
+
+&#x3C;h4&#x3E;Secure IM connections&#x3C;/h4&#x3E;
+&#x3C;p&#x3E;
+    A secure connection to the server protects your connection from
+    eavesdropping on the local network and the path between you and your
+    IM service (provided that it&#x27;s done correctly), but it does not
+    protect your conversation from the IM service itself and it does not
+    tell you anything about whether the user you&#x27;re chatting with is
+    using a secure connection.  Despite these weaknesses, a secure
+    connection to the server is &#x3C;em&#x3E;critically important&#x3C;/em&#x3E;, because
+    it protects a large amount of private information.  Things like
+    buddy lists, status updates (online, offline, away, &#x3C;em&#x3E;etc.&#x3C;/em&#x3E;)
+    from your buddies, and your own status updates pass through this
+    connection and are not necessarily targeted to any specific other
+    user, which makes end-to-end encryption difficult.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    This is the limit of security offered by &#x3C;em&#x3E;most&#x3C;/em&#x3E; commercial IM
+    services.  There are a few exceptions, like AIM&#x27;s encrypted IM, but
+    often they have a similar effective security model &#x26;mdash; for
+    example, the only proof that the encrypted channel you&#x27;re talking on
+    is actually terminated at the remote user (and not the IM service&#x27;s
+    servers) is a certificate signed by ... the IM service itself.  (The
+    details of why this is not sufficient are outside the scope of this
+    post.  Maybe I&#x27;ll write some more on that later.)
+&#x3C;/p&#x3E;
+
+
+&#x3C;h4&#x3E;End-to-end security&#x3C;/h4&#x3E;
+&#x3C;p&#x3E;
+    End-to-end security protects your communication from
+    eavesdropping &#x3C;em&#x3E;all the way to the other user&#x3C;/em&#x3E;.  If some
+    person or organization wants to read your messages, they have to do
+    so at your computer or your interlocutor&#x27;s computer.  There are a
+    small number of protocols that support this directly, but mostly not
+    in a particularly useful way (see the discussion of AIM encrypted IM
+    above).&#x3C;sup&#x3E;&#x3C;a href=&#x22;https://kb8ojh.net/elb/musings/tag/im.rss20#imffoot1&#x22; id=&#x22;imfref1&#x22;&#x3E;[1]&#x3C;/a&#x3E;&#x3C;/sup&#x3E;
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    The usual solution for end-to-end encryption is a third-party
+    protocol carried on top of the IM session.  There are several such
+    protocols, but by far the most popular is the previously-mentioned
+    &#x3C;a href=&#x22;https://otr.cypherpunks.ca/&#x22;&#x3E;Off-the-Record&#x3C;/a&#x3E;.  OTR
+    provides end-to-end encryption for two-party conversations with
+    authentication of the remote user and a variety of desirable
+    encryption protocol characteristics.  (It also
+    provides &#x3C;em&#x3E;repudiability&#x3C;/em&#x3E; for situations where that may be
+    important.)
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    What end-to-end security &#x3C;em&#x3E;cannot&#x3C;/em&#x3E; provide is protection for
+    all of the stuff that&#x27;s intended for a very broad
+    audience.&#x3C;sup&#x3E;&#x3C;a href=&#x22;https://kb8ojh.net/elb/musings/tag/im.rss20#imffoot2&#x22; id=&#x22;imfref2&#x22;&#x3E;[2]&#x3C;/a&#x3E;&#x3C;/sup&#x3E;  Such
+    data (things like away messages, online status, and buddy lists) is
+    typically&#x26;nbsp;&#x3C;sup&#x3E;&#x3C;a href=&#x22;https://kb8ojh.net/elb/musings/tag/im.rss20#imffoot3&#x22; id=&#x22;imfref3&#x22;&#x3E;[3]&#x3C;/a&#x3E;&#x3C;/sup&#x3E;
+    handled by the service&#x27;s servers on behalf of its users, in such a
+    way that necessitates more-or-less trusting the servers with the
+    information.  (This is a reason not to put sensitive information in
+    your status message!)
+&#x3C;/p&#x3E;
+
+
+&#x3C;h4&#x3E;Secure connections with end-to-end security&#x3C;/h4&#x3E;
+&#x3C;p&#x3E;
+    Given the individual limitations of these two forms of data
+    security, we arrive at the inescapable conclusion that, for instant
+    messaging services, they are &#x3C;em&#x3E;complementary&#x3C;/em&#x3E; rather than
+    redundant or simply unrelated.  Secure connections to the servers
+    provide best-effort protection for group chats, administrative
+    information, and metadata, while end-to-end security provides strong
+    protection for conversation content.
+&#x3C;/p&#x3E;
+
+
+&#x3C;h3&#x3E;The pros and cons of federation&#x3C;/h3&#x3E;
+&#x3C;p&#x3E;
+    Traditional IM networks are monolithic, walled gardens &#x26;mdash; if
+    you want to chat with a user on the network, you get an account with
+    the single service provider for that network.  There have been
+    limited exceptions to this over the years (&#x3C;em&#x3E;e.g.,&#x3C;/em&#x3E; MSN Live
+    Messenger and Yahoo! Messenger offer(ed) some degree of
+    interoperability), but for the most part, not only have networks
+    been incompatible, there have been sole providers within those
+    networks.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    This kind of structure means that, while your metadata and
+    administrative information are only ever managed by a single entity
+    (the monolithic service provider), that service provider also
+    sees &#x3C;em&#x3E;all&#x3C;/em&#x3E; of the related metadata &#x3C;em&#x3E;etc.,&#x3C;/em&#x3E; and it&#x27;s
+    necessary some giant faceless corporation.  That corporation stores
+    your buddy lists, knows when you talk with whom, knows when you&#x27;re
+    away or idle, and all kinds of other behavioral information.
+    Moreover, it has you in a lock &#x26;mdash; if you want to talk to your
+    buddies, you have to use its services.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    The alternative to the monolithic single-provider network is
+    a &#x3C;em&#x3E;federated service&#x3C;/em&#x3E;.  In a federated service, multiple
+    (possibly unrelated) service providers cooperate in a network tied
+    together by a common protocol, allowing users of different service
+    providers to interact with each other without worrying about whose
+    service is provided by whom.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    In a federated structure, you still have to trust &#x3C;em&#x3E;your&#x3C;/em&#x3E;
+    service provider with all of your metadata and administrative
+    information, but you don&#x27;t necessarily have to trust any of
+    the &#x3C;em&#x3E;other&#x3C;/em&#x3E; service providers in the network.  In fact, in
+    the general case, most of them don&#x27;t even know you exist!  Some
+    portion of your data will necessarily be shared with the servers
+    your friends and interlocutors are associated with, but you can
+    scope that sharing to a greater or lesser degree.  On the other side
+    of the coin, you also have to place at least a small amount of trust
+    in third-party providers with whom you have no specific
+    relationship, if you want to talk to people on those providers&#x27;
+    servers.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    The quintessential federated network
+    is &#x3C;a href=&#x22;https://xmpp.org/&#x22;&#x3E;XMPP&#x3C;/a&#x3E;, previously known
+    as Jabber.  XMPP is a widely federated network,
+    wherein &#x3C;em&#x3E;anyone&#x3C;/em&#x3E; can run an IM server and become a service
+    provider for other users.  Conversations between users work a lot
+    like email; if I want to chat with you, I send a message to my
+    server, it forwards it to your server, which forwards it to you.
+    The return path is the same in reverse.  Not only can anyone put up
+    an XMPP server, but the protocol is &#x3C;em&#x3E;entirely open and
+    well-documented&#x3C;/em&#x3E;, so there are literally dozens of server
+    software implementations and thousands of providers already in the
+    network.  Those providers range from large, commercial entities
+    (such as &#x3C;span&#x3E;&#x3C;span&#x3E;&#x3C;span&#x3E;Google&#x3C;/span&#x3E;&#x3C;/span&#x3E;&#x27;s &#x3C;span&#x3E;Google
+    Talk&#x3C;/span&#x3E;, now known
+    as &#x3C;span&#x3E;Hangouts&#x3C;/span&#x3E;&#x3C;/span&#x3E;) to tiny
+    servers serving just one user.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    The huge benefit of federation is the freedom to &#x3C;em&#x3E;choose your
+    service provider&#x3C;/em&#x3E;.  Moreover, to &#x3C;em&#x3E;change&#x3C;/em&#x3E; that service
+    provider.  With an open federated network like XMPP, you can even be
+    your &#x3C;em&#x3E;own&#x3C;/em&#x3E; service provider if you so desire.  That&#x27;s a kind
+    of communications freedom that no monolithic provider can ever
+    provide, by definition.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    It is my opinion that the federated structure is a superior
+    solution, security, privacy, and freedom-wise, to old-style
+    monolithic IM networks.  The majority of your sensitive data
+    (administrative information, complete buddy list, &#x3C;em&#x3E;etc.&#x3C;/em&#x3E;) is
+    kept and managed by only one entity, and is parceled out to
+    third-party entities only as required to provide the services you
+    specifically request.  In the specific case of a closed group of
+    users (such as a corporate or organizational server), it may be
+    contained entirely.  I am also a strong advocate of open standards
+    which federated solutions tend to require (to make federation
+    possible), and which XMPP certainly provides.  The ability to pick
+    up your data and move it to another service provider with limited
+    (or nonexistent) loss of functionality is an extremely powerful
+    argument for the freedom of a federated solution.
+&#x3C;/p&#x3E;
+
+
+&#x3C;h3 id=&#x22;imfbestpractices&#x22;&#x3E;Today&#x27;s best practices&#x3C;/h3&#x3E;
+&#x3C;p&#x3E;
+    The foregoing basically points to a simple best practices
+    recommendation for IM freedom and security: use XMPP, find a server
+    you trust, ensure that you&#x27;re using TLS encryption, and employ an
+    end-to-end security solution like OTR when it matters.
+    (Unfortunately, without complete penetration of end-to-end security
+    solutions, &#x26;ldquo;when it matters&#x26;rdquo; is the best we can do.
+    Even then it can be hard to achieve!)  Today, with the availability
+    of a number of large XMPP service providers with federation and open
+    registration
+    (&#x3C;a href=&#x22;https://www.google.com/hangouts/&#x22;&#x3E;Google&#x3C;/a&#x3E;,
+    &#x3C;a href=&#x22;https://duck.co/my/register&#x22;&#x3E;DuckDuckGo&#x3C;/a&#x3E;,
+    &#x3C;a href=&#x22;https://www.jabber.org/&#x22;&#x3E;Jabber.org&#x3C;/a&#x3E;,
+    or &#x3C;a href=&#x22;https://xmpp.net/directory.php&#x22;&#x3E;dozens of others&#x3C;/a&#x3E;),
+    as well as many fine XMPP clients (including, of
+    course &#x3C;a href=&#x22;https://pidgin.im/&#x22;&#x3E;Pidgin, finch&#x3C;/a&#x3E;,
+    and &#x3C;a href=&#x22;https://adium.im/&#x22;&#x3E;Adium&#x3C;/a&#x3E;), getting an XMPP account
+    and finding your friends is relatively painless.  Many of them will
+    already be available if you simply add gmail address as a buddy in
+    your XMPP client.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    Secure connections are not yet provided by all XMPP servers.  Among
+    servers that do provide secure connections to clients, not all
+    provide secure connections to other servers.  (If you recall the
+    email-like communication model of XMPP, this means that your
+    communicatiosn with users on other servers would not be secured
+    between servers, even assuming you trust both servers.)
+    The excellent &#x3C;a href=&#x22;https://xmpp.net/directory.php&#x22;&#x3E;xmpp.net
+    directory of public XMPP servers&#x3C;/a&#x3E; provides ratings for
+    client-to-server and server-to-server communications security; look
+    for A-rated servers.  If you set up your own
+    server, &#x3C;a href=&#x22;https://xmpp.net/&#x22;&#x3E;xmpp.net also provides a
+    security validator&#x3C;/a&#x3E; that can be used to ensure your personal
+    server is up to snuff.
+&#x3C;/p&#x3E;
+
+
+&#x3C;h3&#x3E;Improving the situation&#x3C;/h3&#x3E;
+&#x3C;p&#x3E;
+    Going forward, there are a number of efforts underway to further
+    improve the already rather good connection security situation in the
+    XMPP network.  Notably,
+    the &#x3C;a href=&#x22;https://github.com/stpeter/manifesto/blob/master/manifesto.txt&#x22;&#x3E;XMPP
+    manifesto&#x3C;/a&#x3E; is (documentation of) an effort to transition the
+    entire federated XMPP network to secured connections by May 19,
+    2014.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    The end-to-end security situation is still a little underdeveloped,
+    in my opinion.  OTR is great, but its protocol-independent nature
+    leaves it with a level of integration that isn&#x27;t as complete as it
+    could be.  I have some
+    early-draft &#x3C;a href=&#x22;https://developer.pidgin.im/wiki/EndToEndXMPPCrypto&#x22;&#x3E;notes
+    on desirable features for a new XMPP end-to-end encryption
+    protocol&#x3C;/a&#x3E;, but a lot of work remains to be done on the topic
+    &#x26;mdash; and much of it by people with stronger crypto chops than I
+    have.
+&#x3C;/p&#x3E;
+
+
+&#x3C;h3&#x3E;What you can do now&#x3C;/h3&#x3E;
+&#x3C;p&#x3E;
+    The takeaway from all of this?  Ditch your AIM, MSN Live Messenger,
+    Yahoo! Messenger, or whatever other IM services you&#x27;re currently
+    using, and get on board with a federated XMPP provider.  Follow the
+    recommendations in &#x3C;a href=&#x22;https://kb8ojh.net/elb/musings/tag/im.rss20#imfbestpractices&#x22;&#x3E;best practices&#x3C;/a&#x3E;,
+    above.  Use a public server or install your own, but do it sooner
+    rather than later.  Make sure you&#x27;re using TLS (or SSL, if you have
+    to) to protect your connections, and consider installing OTR.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    Then, when you&#x27;re done with that, start bringing your friends over.
+    Talk to them about the benefits of freedom in IM services, describe
+    the insecurity of communication on traditional commercial IM
+    services, simply tell them you&#x27;re not dealing with a closed IM
+    service any more, or whatever.  Point them at this article, if you
+    think it will help.  XMPP already has critical mass, it&#x27;s simply a
+    matter of expanding the borders.
+&#x3C;/p&#x3E;
+&#x3C;p&#x3E;
+    If you have the necessary background, consider contacting me about
+    working on an integrated end-to-end encryption and authentication
+    solution for XMPP.  Join the devel@conference.pidgin.im XMPP MUC and
+    indicate your interest.
+&#x3C;/p&#x3E;
+
+
+&#x3C;div class=&#x22;footnotes&#x22;&#x3E;
+&#x3C;h3&#x3E;Footnotes&#x3C;/h3&#x3E;
+&#x3C;p id=&#x22;imffoot1&#x22;&#x3E;&#x3C;a href=&#x22;https://kb8ojh.net/elb/musings/tag/im.rss20#imfref1&#x22;&#x3E;[1]&#x3C;/a&#x3E;
+    &#x3C;a href=&#x22;http://silcnet.org/&#x22;&#x3E;SILC&#x3C;/a&#x3E; is an example of a service
+    that provides native secure connections &#x3C;em&#x3E;and&#x3C;/em&#x3E; native
+    end-to-end encryption.  Unfortunately, it is no longer a maintained
+    codebase, it is not well-supported by IM clients
+    (though &#x3C;a href=&#x22;https://pidgin.im&#x22;&#x3E;libpurple, and thus Pidgin&#x3C;/a&#x3E;
+    does support it), and it has a problematic federation model.
+&#x3C;/p&#x3E;
+&#x3C;p id=&#x22;imffoot2&#x22;&#x3E;&#x3C;a href=&#x22;https://kb8ojh.net/elb/musings/tag/im.rss20#imfref2&#x22;&#x3E;[2]&#x3C;/a&#x3E;
+    &#x26;ldquo;Cannot&#x26;ldquo; is a bit strong here, but I believe that, given
+    the current state of the art of encryption protocols and mechanisms,
+    it&#x27;s true enough to use for the moment.  Secure multiparty
+    broadcasts with hundreds of recipients would be &#x3C;em&#x3E;very&#x3C;/em&#x3E;
+    expensive using standard techniques.  The literature may (and
+    probably will) have some answers to this problem in the future, but
+    for now, I&#x27;ll say cannot.
+&#x3C;/p&#x3E;
+&#x3C;p id=&#x22;imffoot3&#x22;&#x3E;&#x3C;a href=&#x22;https://kb8ojh.net/elb/musings/tag/im.rss20#imfref3&#x22;&#x3E;[3]&#x3C;/a&#x3E;
+    I say typically here because I know of no non-local-network service
+    that handles this any other way.  Local network messaging (like
+    &#x3C;span&#x3E;&#x3C;span&#x3E;&#x3C;span&#x3E;Apple&#x3C;/span&#x3E;&#x3C;/span&#x3E;&#x27;s
+    &#x3C;span&#x3E;Bonjour&#x3C;/span&#x3E;&#x3C;/span&#x3E;) has other solutions to
+    this problem.  Generally, however, you send your status updates to
+    the server and it distributes them (possibly by way of other
+    servers, in a federated protocol) to interested parties on your
+    behalf.
+&#x3C;/p&#x3E;
+</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://kb8ojh.net/elb/musings/in-support-of-im-freedom.html</guid>
+</item>
+<item>
+<title>Off-the-Record Messaging &#x2013; the true privacy</title>
+<link>https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2013/off-the-record-messaging/</link>
+<description>
+&#x3C;p&#x3E;Modern instant messengers claims about security and privacy. And users trusts them. But companies that delivers such services sometimes fails protecting their users privacy. The point is, that user doesn&#x26;#8217;t have any control over confidentiality of his private conversations &#x26;#8211; the service provider does it.&#x3C;span id=&#x22;more-673&#x22;&#x3E;&#x3C;/span&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;In most cases, this schema works pretty good: user A sends a private message via an encrypted connection to a service provider and the provider sends it to the user B (also using an encrypted connection). The problem occurs, when the intermediary company reveals such message &#x26;#8211; due to software failure or dishonest employee.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Encrypting the message by A seems to be the solution, but it creates another set of problems. To make user A able to encrypt a message for user B, he have to obtain a B&#x26;#8217;s public key. But how to obtain it in a secure way? What, if B loose his key, used to secure a long history of conversations? Also, to make user B sure, that the A sent the message, user A have to sign it. But what, if user A says something humiliating to user B in private, but the second one reveals the message to the public and use it against A? The message is signed by A, so there is a proof he wrote it.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;And there comes the Off-the-Record Messaging protocol. It&#x26;#8217;s goal is to provide truly private conversations over any underlying IM protocol (such as xmpp, ICQ, Gadu-Gadu) in a easy to use manner. It ensures four aspects of privacy:&#x3C;/p&#x3E;
+&#x3C;ul&#x3E;
+&#x3C;li&#x3E;&#x3C;strong&#x3E;encryption&#x3C;/strong&#x3E;, so nobody other than A or B can read their messages;&#x3C;/li&#x3E;
+&#x3C;li&#x3E;&#x3C;strong&#x3E;authentication&#x3C;/strong&#x3E; of the other party, to make sure we are talking with the right person;&#x3C;/li&#x3E;
+&#x3C;li&#x3E;&#x3C;strong&#x3E;deniability&#x3C;/strong&#x3E;, because messages does not have digital signatures that are checkable by a third party &#x26;#8211; the other side of conversation cannot prove, the messages he got are sent by you (but he&#x26;#8217;s still sure about it);&#x3C;/li&#x3E;
+&#x3C;li&#x3E;&#x3C;strong&#x3E;perfect forward secrecy&#x3C;/strong&#x3E; &#x26;#8211; if someone get your private keys, he won&#x26;#8217;t be able to decrypt any &#x3C;em&#x3E;past&#x3C;/em&#x3E; conversations.&#x3C;/li&#x3E;
+&#x3C;/ul&#x3E;
+&#x3C;h2&#x3E;OTR and Pidgin/libpurple&#x3C;/h2&#x3E;
+&#x3C;p&#x3E;There is a plugin for Pidgin, implementing OTR messaging &#x26;#8211; &#x3C;a href=&#x22;https://otr.cypherpunks.ca/&#x22;&#x3E;pidgin-otr&#x3C;/a&#x3E;. Unfortunately, the user have to install it by himself, so it&#x26;#8217;s not as easy to use as in other messengers. I was asked to integrate it within the official release.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;&#x3C;a title=&#x22;New conversation window with OTR controls&#x22; href=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/10/otr-conv.png&#x22;&#x3E;&#x3C;img class=&#x22; wp-image-702 alignright&#x22; alt=&#x22;New conversation window with OTR controls&#x22; src=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/10/otr-conv.png&#x22; width=&#x22;207&#x22; height=&#x22;176&#x22; /&#x3E;&#x3C;/a&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;I decided to make this task a &#x3C;em&#x3E;bit&#x3C;/em&#x3E; more challenging. Pidgin-otr is a Pidgin UI client plugin, so it&#x26;#8217;s not available for other libpurple clients. Some of them (Adium) implements OTR by itself, some (Finch) doesn&#x26;#8217;t offer such functionality. I decided to rewrite it as a pure libpurple plugin, to provide this excellent feature for all clients that use libpurple as a backend. Fortunately, pidgin-otr is pretty well designed, so I had only to alter things related directly to the UI.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;There already was a similar attempt, named purple-otr. Its main problem was really poor UI &#x26;#8211; its author used pretty limited libpurple&#x26;#8217;s Request API to create dialogs, so he wasn&#x26;#8217;t able to clone all pidgin-otr&#x26;#8217;s functionality. My situation is way more comfortable, because I am a Pidgin developer (having direct impact on its code), working on a 3.0.0 version (which breaks API, so I don&#x26;#8217;t have to care about compatibility). That means, I was able to extend libpurple&#x26;#8217;s features to better fit OTR plugin needs. &#x3C;em&#x3E;Some&#x3C;/em&#x3E; of libpurple API changes that made it possible:&#x3C;/p&#x3E;
+&#x3C;ul&#x3E;
+&#x3C;li&#x3E;&#x3C;strong&#x3E;End-to-End encryption providers API&#x3C;/strong&#x3E; allows to present (implementation independently) conversation&#x26;#8217;s security state. Previously, pidgin-otr and similiar plugins placed their own controls in various parts of the conversation window, now it&#x26;#8217;s standardized.&#x3C;/li&#x3E;
+&#x3C;li&#x3E;&#x3C;strong&#x3E;Request API refactored with PurpleRequestCommonParameters&#x3C;/strong&#x3E;, which makes this API easily extendable.&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Using PurpleRequestCommonParameters for new features implementation, like an option to provide &#x3C;strong&#x3E;HTML decorated text descriptions&#x3C;/strong&#x3E;, an option to &#x3C;strong&#x3E;alter the dialog icon&#x3C;/strong&#x3E;, to make better control over the &#x3C;strong&#x3E;dialog buttons&#x3C;/strong&#x3E;.&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Adding a new window type: &#x3C;strong&#x3E;cancellable &#x26;#8220;please wait&#x26;#8221; dialog&#x3C;/strong&#x3E;, with an optional progress bar.&#x3C;/li&#x3E;
+&#x3C;/ul&#x3E;
+&#x3C;p&#x3E;These changes may not look crucial. In fact, without them the libpurple&#x26;#8217;s pidgin-otr port would look really poor or even awkward.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;&#x3C;a href=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/10/otr-auth-1.png&#x22; title=&#x22;First step of buddy authentication&#x22;&#x3E;&#x3C;img class=&#x22; wp-image-703 alignleft&#x22; alt=&#x22;First step of buddy authentication&#x22; src=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/10/otr-auth-1.png&#x22; width=&#x22;255&#x22; height=&#x22;130&#x22; /&#x3E;&#x3C;/a&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;&#x3C;a href=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/10/otr-auth-2.png&#x22; title=&#x22;Second step of buddy authentication&#x22;&#x3E;&#x3C;img class=&#x22;wp-image-704 alignright&#x22; alt=&#x22;Second step of buddy authentication&#x22; src=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/10/otr-auth-2.png&#x22; width=&#x22;250&#x22; height=&#x22;154&#x22; /&#x3E;&#x3C;/a&#x3E;&#x3C;/p&#x3E;
+&#x3C;div&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2013/off-the-record-messaging/</guid>
+</item>
+<item>
+<title>101 HTTP implementations</title>
+<link>https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2013/101-http-implementations/</link>
+<description>
+&#x3C;p&#x3E;Previous libpurple version suffers from poor HTTP implementation. Ordinary user won&#x26;#8217;t notice that, because plugins tries to fill the hole. However, when every single component that uses HTTP have to deal with the same issues, there must be some mess left.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Nearly a year ago, I&#x26;#8217;ve decided to put some effort here and &#x3C;a href=&#x22;http://blog.wasilczyk.pl/en/2012/the-last-stop-before-file-transfer/&#x22; title=&#x22;The last stop before file transfer&#x22;&#x3E;implement new, flexible HTTP API&#x3C;/a&#x3E;. Now, I&#x26;#8217;ve came even deeper, replacing existing implementations with my new tool.&#x3C;span id=&#x22;more-636&#x22;&#x3E;&#x3C;/span&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Replacing old HTTP API with the new one consisted of few stages. Firstly, I&#x26;#8217;ve replaced all &#x3C;code&#x3E;purple_util_fetch_url&#x3C;/code&#x3E; occurrences with &#x3C;code&#x3E;purple_http_get&#x3C;/code&#x3E;. That was the pretty easy step, because both functions does roughly the same thing: gets the URL and returns its contents. Then, it was the time for the tricky part: &#x3C;code&#x3E;purple_util_fetch_url_request&#x3C;/code&#x3E; required building and parsing HTTP headers manually. Also, it leaves part of proxy handling on the caller in a weird way &#x26;#8211; he have to pass an full URL in request header, if proxy is on, or short (without hostname) otherwise.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Getting rid of &#x3C;code&#x3E;purple_util_fetch_url*&#x3C;/code&#x3E; routines raised code quality pretty well, but the most difficult task was still undone. Some protocols had its own HTTP implementations &#x26;#8211; just imagine that amount of copy-paste. I&#x26;#8217;d like to share some examples:&#x3C;/p&#x3E;
+&#x3C;ul&#x3E;
+&#x3C;li&#x3E;oscar (ICQ, AIM) implemented it on it&#x26;#8217;s own to just perform simple GET request; the implementation was so horrible, that the author himself named the functions &#x3C;code&#x3E;straight_to_hell&#x3C;/code&#x3E;, &#x3C;code&#x3E;damn_you&#x3C;/code&#x3E; and &#x3C;code&#x3E;struct pieceofcrap&#x3C;/code&#x3E;; fortunately, this code wasn&#x26;#8217;t used for a long time;&#x3C;/li&#x3E;
+&#x3C;li&#x3E;mxit: this could be implemented using old HTTP API, I have no idea, why author hadn&#x26;#8217;t done that;&#x3C;/li&#x3E;
+&#x3C;li&#x3E;msn: this one was somehow justified &#x26;#8211; there were no Keep-Alive connections in old API, so the author did it by himself to gain some performance; the bad thing is, he did it twice (for HTTP relays and SOAP handling);&#x3C;/li&#x3E;
+&#x3C;li&#x3E;xmpp also has two implementations, just not that obviously superfluous: the BOSH implementation was complex and still full of TODO&#x26;#8217;s; it took advantage of simple Keep-Alive request, but in really obfuscated way; rewriting of second implementation (out-of-band file transfers) was, by contrast, easy and pleasing task (especially, because I&#x26;#8217;ve done similar one within Gadu-Gadu protocol before);&#x3C;/li&#x3E;
+&#x3C;li&#x3E;yahoo protocol plugin was the record-holder with the value of four distinct HTTP implementations; I think, only in case of yahoo file transfers it wouldn&#x26;#8217;t be possible to do it using existing API.&#x3C;/li&#x3E;
+&#x3C;/ul&#x3E;
+&#x3C;p&#x3E;There are still two remaining, but I&#x26;#8217;m not sure if I will refactor them at all. The first one is for Gadu-Gadu protocol &#x26;#8211; it&#x26;#8217;s included in libgadu library, so it&#x26;#8217;s not trivial to pull it out without violating its API. The second is for Novell GroupWise Instant Messenger &#x26;#8211; a closed service, available for companies. There are no public test servers, which I could try out. Also installation and configuration of its demo overwhelmed me (in fact, it&#x26;#8217;s buggy). I&#x26;#8217;m not sure if it&#x26;#8217;s worth the effort to do both cases above.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;My next task will be &#x3C;a href=&#x22;http://www.cypherpunks.ca/otr/&#x22;&#x3E;Off-the-record&#x3C;/a&#x3E; plugin refinement and integration into the main tree.&#x3C;/p&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2013/101-http-implementations/</guid>
+</item>
+<item>
+<title>Pidgin with Video finally for Windows</title>
+<link>https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2013/pidgin-with-video-finally-for-windows/</link>
+<description>
+&#x3C;p&#x3E;I just did another long desired feature: Video conferences support for Windows. There already were &#x3C;a href=&#x22;http://eion.robbmob.com/blog/2009/08/14/pidgin-with-video-on-windows/&#x22;&#x3E;attempts&#x3C;/a&#x3E; to do it, but they were not finished nor even published &#x26;#8211; this one is already in Pidgin&#x26;#8217;s tree, so it&#x26;#8217;s a matter of time to get them released (&#x3C;em&#x3E;just&#x3C;/em&#x3E; wait for 3.0.0). If you don&#x26;#8217;t want to wait, you can always grab a &#x3C;a href=&#x22;http://blog.wasilczyk.pl/en/pidgin-development-builds/&#x22; title=&#x22;Pidgin development builds&#x22;&#x3E;development build&#x3C;/a&#x3E;.&#x3C;span id=&#x22;more-576&#x22;&#x3E;&#x3C;/span&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;&#x3C;img src=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/06/pidgin-vv-on-win32.png&#x22; alt=&#x22;Video conference with Pidgin on Windows&#x22; width=&#x22;442&#x22; height=&#x22;441&#x22; class=&#x22;aligncenter size-full wp-image-583&#x22; /&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;I did a lot of tweaks both in Pidgin and its dependencies (GStreamer and related), but finally everything looks working and stable. The hard part, unlike in the previous &#x3C;a href=&#x22;http://eion.robbmob.com/blog/2009/08/14/pidgin-with-video-on-windows/&#x22;&#x3E;Eion&#x26;#8217;s attempt&#x3C;/a&#x3E;, was the camera capture plugins for GStreamer &#x26;#8211; DirectShow and WinKS. The first one is not buildable in newer gst-plugins-bad releases (at least, for mingw), the second is buggy. I&#x26;#8217;ve chosen to work with WinKS: the main problem was, it had broken support for different capture resolutions (I guess, old cameras had no support for it, so they were not affected). Many hours of debugging resulted in a simple patch, that makes the resolution fixed. The other one existed in Pidgin itself: there were no possibility to select camera, because winks used different method of device enumeration, than Pidgin supported.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;On the occasion of testing VV on Windows, I&#x26;#8217;ve came up with a simple idea: some users may do not want to show their faces in video conferences, but they could want to see others. So, I implemented a new, virtual device (both for Linux and Windows): &#x3C;em&#x3E;Disabled&#x3C;/em&#x3E;. Depending on user&#x26;#8217;s choice, it displays black screen or random noise, like on TV. Simple, but useful.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;&#x3C;img src=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/06/pidgin-vv-disabled.png&#x22; alt=&#x22;Disabled camera preview&#x22; width=&#x22;430&#x22; height=&#x22;360&#x22; class=&#x22;aligncenter size-full wp-image-597&#x22; /&#x3E;&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Testing on Windows platform showed some bugs, that were hardly noticeable before: hangs on video testing, displaying a video output in a separate window. Beyond them, I also fixed some memleaks and did other tiny fixes.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;The source code is available directly from the &#x3C;a href=&#x22;http://hg.pidgin.im/pidgin/main/&#x22;&#x3E;hg repository&#x3C;/a&#x3E; and &#x3C;a href=&#x22;https://build.opensuse.org/project/show?project=home%3Atomkiewicz%3Agst0&#x22;&#x3E;openSUSE Build Service project&#x3C;/a&#x3E; (for dependencies). If you just want to test the VV feature on Windows, you can just grab the &#x3C;a href=&#x22;https://dl.dropboxusercontent.com/u/5448886/pidgin-builds/pidgin-vv-d44a3e57992c.exe&#x22;&#x3E;offline installer&#x3C;/a&#x3E;.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;As always, I&#x26;#8217;m waiting for any feedback, bug reports and comments.&#x3C;/p&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2013/pidgin-with-video-finally-for-windows/</guid>
+</item>
+<item>
+<title>Four Pidgin Summer of Code students</title>
+<link>https://planet.pidgin.imhttps://kingant.net/2013/05/four-pidgin-summer-of-code-students/</link>
+<description>
+&#x3C;p&#x3E;Pidgin was awarded four students for this year&#x26;#8217;s &#x3C;a href=&#x22;https://developers.google.com/open-source/soc/&#x22;&#x3E;Google Summer of Code&#x3C;/a&#x3E;. It was a difficult process to select just four students from the 34 great applications we received.  These are the projects we finally chose:&#x3C;/p&#x3E;
+&#x3C;ul&#x3E;
+&#x3C;li&#x3E;Ankit Vani will be working on &#x3C;a href=&#x22;https://google-melange.appspot.com/gsoc/project/google/gsoc2013/ankitkv/57001&#x22;&#x3E;GObjectification&#x3C;/a&#x3E;.  This entails a lot of behind-the-scenes changes to the Pidgin code to use GObjects to make developer&#x26;#8217;s lives easier.&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Ashish Gupta will be working on &#x3C;a href=&#x22;https://google-melange.appspot.com/gsoc/project/google/gsoc2013/ashmew2/29001&#x22;&#x3E;improving file transfer between libpurple and non-libpurple IM clients&#x3C;/a&#x3E;.  He&#x26;#8217;ll initially be focusing on the Yahoo! and XMPP protocols before moving on to a protocol-agnostic file transfer plugin.&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Bhaskar Kandiyal will be creating &#x3C;a href=&#x22;https://google-melange.appspot.com/gsoc/project/google/gsoc2013/gastly/31002&#x22;&#x3E;a website for browsing available Pidgin plugins&#x3C;/a&#x3E;, as well as improving Pidgin&#x26;#8217;s plugin management and installation UI.&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Phil Hannent will create &#x3C;a href=&#x22;https://google-melange.appspot.com/gsoc/project/google/gsoc2013/phannent/39007&#x22;&#x3E;Quail &#x26;#8211; a Qt GUI for libpurple&#x3C;/a&#x3E;.&#x3C;/li&#x3E;
+&#x3C;/ul&#x3E;
+&#x3C;p&#x3E;We&#x26;#8217;re looking forward to seeing what they create! The coding period begins June 17 and ends September 23.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;As always, thanks to everyone who applied. And remember, this is an open source project and you&#x26;#8217;re &#x3C;a href=&#x22;https://developer.pidgin.im/wiki/PidginCommunity#CanIhelp&#x22;&#x3E;welcome to contribute&#x3C;/a&#x3E; even if you&#x26;#8217;re not participating in Summer of Code.&#x3C;/p&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2013/05/four-pidgin-summer-of-code-students/</guid>
+</item>
+<item>
+<title>Students: Apply to Pidgin Google Summer of Code now!</title>
+<link>https://planet.pidgin.imhttps://kingant.net/2013/04/students-apply-to-pidgin-google-summer-of-code-now/</link>
+<description>
+&#x3C;p&#x3E;The application period for applying to Google Summer of Code opened on Monday and we&#x26;#8217;ve already received a number of applications.  The application period closes next Friday, May 3rd.  Just 8 days left&#x26;mdash;don&#x26;#8217;t wait, submit your application soon!&#x3C;/p&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2013/04/students-apply-to-pidgin-google-summer-of-code-now/</guid>
+</item>
+<item>
+<title>Pidgin in Google Summer of Code 2013</title>
+<link>https://planet.pidgin.imhttps://kingant.net/2013/04/pidgin-in-google-summer-of-code-2013/</link>
+<description>
+&#x3C;p&#x3E;Google has accepted Pidgin into Google Summer of Code 2013.  Woo-hoo!  We&#x26;#8217;re looking forward to mentoring a few lucky students again this year.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;For more information, &#x3C;a href=&#x22;http://google-opensource.blogspot.com/2013/04/mentoring-organizations-for-google.html&#x22;&#x3E;read Google&#x26;#8217;s announcement&#x3C;/a&#x3E;, &#x3C;a href=&#x22;http://www.google-melange.com/gsoc/org/google/gsoc2013/pidgin&#x22;&#x3E;peruse our application template&#x3C;/a&#x3E;, and &#x3C;a href=&#x22;https://developer.pidgin.im/wiki/FutureSOCProjects&#x22;&#x3E;see our list of project ideas&#x3C;/a&#x3E;.  The application period beings April 22nd&#x26;mdash;just two short weeks away!&#x3C;/p&#x3E;
+&#x3C;p&#x3E;We always encourage our users to brainstorm and share your ideas on improvements you would like to see in Pidgin, Finch, and libpurple.  Feel free to share thoughts and ask questions on our &#x3C;a href=&#x22;https://pidgin.im/cgi-bin/mailman/listinfo/devel&#x22;&#x3E;devel mailing list&#x3C;/a&#x3E;.&#x3C;/p&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2013/04/pidgin-in-google-summer-of-code-2013/</guid>
+</item>
+<item>
+<title>Pidgin and the Impending Shutdown of Windows Live Messenger</title>
+<link>https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2012/11/pidgin-and-impending-shutdown-of.html</link>
+<description>
+&#x3C;br /&#x3E;So, Microsoft recently announced that they&#x2019;ll terminate the Windows Live Messenger service in favor of Skype in early 2013. &#x26;nbsp;We&#x2019;ve been getting a number of questions about what this means for Pidgin. &#x26;nbsp;Quite honestly, we don&#x2019;t know. &#x26;nbsp;At this point, all we know is that China will still be able to use Windows Live Messenger. &#x26;nbsp;That leads us to believe that the servers providing MSNP service will remain active and maintained for some period of time after the announced shutdown, but it&#x2019;s not clear whether or not that will be the case. &#x26;nbsp;It&#x2019;s also not clear if the servers supporting China&#x2019;s continued use of WLM will be accessible to non-Chinese IP space. &#x26;nbsp;Even further, it&#x2019;s not clear if the recently-launched XMPP interface to the WLM network will remain functional. &#x26;nbsp;We don&#x2019;t support that yet though, as it requires some authentication magic we don&#x2019;t implement. &#x26;nbsp;Even if we implement support for the authentication this XMPP gateway requires, it could end up being a waste of time, as it could get shut down at any time, either before or after the rest of WLM.&#x3C;br /&#x3E;&#x3C;br /&#x3E;And before anyone goes there, we can&#x2019;t support Skype. &#x26;nbsp;There is no documentation of the protocol available to us, nor is there code we can borrow from a cleanly reverse-engineered alternative implementation. &#x26;nbsp;All that exists is SkypeKit, whose license agreement explicitly forbids its use in open-source software. &#x26;nbsp;The license also forbids use in &#x201C;server applications&#x201D; which precludes doing something like wrapping a simple closed-source XMPP daemon around SkypeKit. &#x26;nbsp;It is not currently possible to legally support Skype, so we won&#x2019;t try.&#x3C;br /&#x3E;&#x3C;br /&#x3E;The bottom line is we have no idea what the announcement means for Pidgin or any other alternative clients yet. &#x26;nbsp;We&#x2019;ll all just have to wait and see.&#x3C;br /&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2012/11/pidgin-and-impending-shutdown-of.html</guid>
+</item>
+<item>
+<title>Announcing our four Summer of Code students!</title>
+<link>https://planet.pidgin.imhttps://kingant.net/2012/04/announcing-our-four-summer-of-code-students/</link>
+<description>
+&#x3C;p&#x3E;We&#x26;#8217;re pleased to announce that we&#x26;#8217;ve accepted four students for this year&#x26;#8217;s Summer of Code!&#x3C;/p&#x3E;
+&#x3C;ul&#x3E;
+&#x3C;li&#x3E;Gadu-Gadu PRPL improvements by Tomasz Wasilczyk, mentored by Ethan Blanton&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Plugin website by Nikhil Bafna, mentored by Kevin Stange&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Usage stats collection by Sanket Agarwal, mentored by Eion Robb&#x3C;/li&#x3E;
+&#x3C;li&#x3E;libpurple on Android by Michael Zangl, mentored by Mark Doliner&#x3C;/li&#x3E;
+&#x3C;/ul&#x3E;
+&#x3C;p&#x3E;It&#x26;#8217;s always difficult to narrow down so many great applications into just a handful, and we want to thank everyone who applied.  The coding period runs from May 21 through August 24.  If you want to follow the progress of the four students, they&#x26;#8217;ll be providing periodic status updates to our &#x3C;a href=&#x22;http://pidgin.im/cgi-bin/mailman/listinfo/devel&#x22;&#x3E;devel mailing list&#x3C;/a&#x3E; throughout the summer.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;Read &#x3C;a href=&#x22;http://google-opensource.blogspot.com/2012/04/students-announced-for-google-summer-of.html&#x22;&#x3E;Google&#x26;#8217;s official announcement here&#x3C;/a&#x3E;.&#x3C;/p&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2012/04/announcing-our-four-summer-of-code-students/</guid>
+</item>
+<item>
+<title>Libpurple in GSoC 2012</title>
+<link>https://planet.pidgin.imhttp://salinasv.blogspot.com/2012/03/libpurple-in-gsoc-2012.html</link>
+<description>
+Libpurple was accepted in the &#x3C;a href=&#x22;http://www.google-melange.com/&#x22;&#x3E;Google Summer of Code&#x3C;/a&#x3E;&#x26;nbsp; this year 2012.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I urge every student reading this to apply for any of the projects accepted and if you like, apply to Libpurple.&#x3C;br /&#x3E;&#x3C;br /&#x3E;We have a set of &#x3C;a href=&#x22;http://developer.pidgin.im/wiki/FutureSOCProjects&#x22;&#x3E;proposed ideas&#x3C;/a&#x3E; but you are encouraged to bring your own ideas since they will be fresher and will not compete with other people over the same project.&#x3C;br /&#x3E;&#x3C;br /&#x3E;You can find libpurple&#x27;s application page at&#x26;nbsp;&#x3C;a href=&#x22;http://www.google-melange.com/gsoc/org/google/gsoc2012/pidgin&#x22;&#x3E;Pidgin, Finch and libpurple&#x3C;/a&#x3E;.</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttp://salinasv.blogspot.com/2012/03/libpurple-in-gsoc-2012.html</guid>
+</item>
+<item>
+<title>Pidgin Accepted to 2012 Summer of Code!</title>
+<link>https://planet.pidgin.imhttps://kingant.net/2012/03/pidgin-accepted-to-2012-summer-of-code/</link>
+<description>
+&#x3C;p&#x3E;&#x3C;a href=&#x22;http://www.youtube.com/watch?v=1D1cap6yETA&#x22;&#x3E;Good news, everyone&#x3C;/a&#x3E;!  Google has accepted the &#x3C;a href=&#x22;http://pidgin.im/&#x22;&#x3E;Pidgin project&#x3C;/a&#x3E;&#x26;#8216;s application to be a mentoring organization in &#x3C;a href=&#x22;http://www.google-melange.com/gsoc/homepage/google/gsoc2012&#x22;&#x3E;this year&#x26;#8217;s Google Summer of Code&#x3C;/a&#x3E;.  If you love programming and are looking for a chance to help an open source project, look no further.&#x3C;/p&#x3E;
+&#x3C;p&#x3E;How much can you accomplish in a single summer?  Quite a lot.  To give you an idea, here&#x26;#8217;s a list of some of our heftier projects of past years:&#x3C;/p&#x3E;
+&#x3C;ul&#x3E;
+&#x3C;li&#x3E;SSL certificate verification and management&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Voice and video chat for XMPP&#x3C;/li&#x3E;
+&#x3C;li&#x3E;The Bonjour protocol plugin&#x3C;/li&#x3E;
+&#x3C;li&#x3E;The MySpace protocol plugin&#x3C;/li&#x3E;
+&#x3C;li&#x3E;The SIMPLE protocol plugin&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Finch (command-line based IM client based on libpurple)&#x3C;/li&#x3E;
+&#x3C;/ul&#x3E;
+&#x3C;h2&#x3E;Details&#x3C;/h2&#x3E;
+&#x3C;ul&#x3E;
+&#x3C;li&#x3E;Get inspired by our &#x3C;a href=&#x22;http://developer.pidgin.im/wiki/FutureSOCProjects&#x22;&#x3E;ideas list&#x3C;/a&#x3E;.  But don&#x26;#8217;t limit yourself to those ideas&#x26;mdash;we love when students propose their own projects.&#x3C;/li&#x3E;
+&#x3C;li&#x3E;The application period starts March 26 and ends April 6th (&#x3C;a href=&#x22;http://www.google-melange.com/gsoc/events/google/gsoc2012&#x22;&#x3E;full timeline&#x3C;/a&#x3E;)&#x3C;/li&#x3E;
+&#x3C;li&#x3E;Once the application period opens, &#x3C;a href=&#x22;http://www.google-melange.com/gsoc/org/google/gsoc2012/pidgin&#x22;&#x3E;apply here&#x3C;/a&#x3E;&#x3C;/li&#x3E;
+&#x3C;li&#x3E;We&#x26;#8217;re guessing we&#x26;#8217;ll request slots for 3 students this year.&#x3C;/li&#x3E;
+&#x3C;li&#x3E;If IM isn&#x26;#8217;t your thing but you still want to participate, &#x3C;a href=&#x22;http://www.google-melange.com/gsoc/accepted_orgs/google/gsoc2012&#x22;&#x3E;check out the list of other great organizations&#x3C;/a&#x3E;&#x3C;/li&#x3E;
+&#x3C;/ul&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2012/03/pidgin-accepted-to-2012-summer-of-code/</guid>
+</item>
+<item>
+<title>Major Changes Afoot</title>
+<link>https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2011/08/major-changes-afoot.html</link>
+<description>
+Well, it&#x27;s been about forever since I last bothered to post anything here.  Since my last post, we&#x27;ve released several times, introducing and fixing a bunch of bugs.  Now, however, we&#x27;re shifting our focus to new development of a sort that we don&#x27;t do often&#x2014;compatibility breakage and big internal changes.  This means that our main development effort is now in working toward Pidgin and libpurple 3.0.0.  I&#x27;m going to try to explain some of the work going on for the benefit of anyone who reads my ramblings, so here goes.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;&#x3C;h2&#x3E;Versioning&#x3C;/h2&#x3E;First of all, there seems to be some confusion about how Pidgin and libpurple version numbers work.  I&#x27;d like to try to clear some of that up.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;Pidgin, Finch, and libpurple use what&#x27;s called &#x201C;&#x3C;a href=&#x22;http://semver.org&#x22;&#x3E;Semantic Versioning&#x3C;/a&#x3E;.&#x201D;  That is, each part of the version number has a particular meaning for users and developers.  We chose this scheme to assist plugin developers in knowing when significant changes would require effort on their part to maintain compatibility with current Pidgin and/or libpurple versions.  It also helps our users by letting them know when their existing plugins will stop working.  So, how does this semantic versioning work?  Let&#x27;s look at the format of our version numbers and find out.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;Pidgin, Finch, and libpurple version numbers have three components, separated by dots.  At the time of this writing, 2.10.0 is the current version number.  These components are called major (currently 2), minor (currently 10), and micro or patch (currently 0).  Let&#x27;s look at what each means.
+&#x3C;br /&#x3E;&#x3C;ul&#x3E;&#x3C;li&#x3E;&#x3C;b&#x3E;Major&#x3C;/b&#x3E;: the major version doesn&#x27;t change often.  The last time we changed it was in 2007 with the release of Pidgin 2.0.0, and before that was in 2004 with 1.0.0 when we started using semantic versioning under our previous name.  	Whenever this number changes, we&#x27;ve made changes to Pidgin, Finch, or libpurple that break compatibility with every UI and plugin that currently exists.  Usually this means that we&#x27;ve removed something from the API exposed to plugins and UI&#x27;s, or that we&#x27;ve changed something about a function (its name, arguments, return type, or the 	header file it&#x27;s in).  Sometimes plugins or UI&#x27;s can just be recompiled when this happens; other times they need maintenance to become compatible with the new release.  Additionally, the major version &#x3C;i&#x3E;never&#x3C;/i&#x3E; decreases.  It will &#x3C;i&#x3E;always&#x3C;/i&#x3E; increase when it changes.&#x3C;/li&#x3E;&#x3C;li&#x3E;&#x3C;b&#x3E;Minor&#x3C;/b&#x3E;: the minor version changes more frequently than the major version, but generally less often than the micro or patch version.  Whenever the minor number increases, we&#x27;ve added things to our API that do not break compatibility with existing plugins or UI&#x27;s.  A prime example of this is adding the voice and video support we added in 2.6.0.  We added a bunch of stuff to the existing API, but didn&#x27;t change anything that would cause a break in backward compatibility with existing plugins and UI&#x27;s.  When the minor version decreases (gets set back to 0), it means that the major version has changed, and the whole cycle starts over.&#x3C;/li&#x3E;&#x3C;li&#x3E;&#x3C;b&#x3E;Micro&#x3C;/b&#x3E; or &#x3C;b&#x3E;patch&#x3C;/b&#x3E;: The patch version changes with almost every release.  When this version increases, it means that we haven&#x27;t touched API at all; instead we&#x27;ve done nothing but fix bugs or add small features that don&#x27;t affect compatibility with plugins or UI&#x27;s.  When this version 	decreases (gets set back to 0), it means that the minor version has changed.&#x3C;/li&#x3E;&#x3C;/ul&#x3E;
+&#x3C;br /&#x3E;Related to all this, and important only for plugin and UI developers (so skip this paragraph if you&#x27;re not a developer!), is the behavior of the &#x3C;code&#x3E;PURPLE_VERSION_CHECK&#x3C;/code&#x3E; macro.  Many developers expect &#x3C;code&#x3E;PURPLE_VERSION_CHECK(2, 5, 0)&#x3C;/code&#x3E; or similar to expand to a statement that evaluates to &#x3C;code&#x3E;1&#x3C;/code&#x3E; or &#x3C;code&#x3E;TRUE&#x3C;/code&#x3E; in the case of building against libpurple 3.0.0.  This, however, is &#x3C;i&#x3E;not&#x3C;/i&#x3E; the case.  Because our major versions are incompatible with each other, we have intentionally written &#x3C;code&#x3E;PURPLE_VERSION_CHECK&#x3C;/code&#x3E; to fail if the major version is not an exact match.  We understand this can be confusing and inconvenient, and we sincerely apologize for that, but we&#x27;re not going to change it.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;What all this means is that if the first number (major version) changes, you&#x27;re going to need to update your plugins when you upgrade Pidgin, Finch, and libpurple.  If the second (minor version) or third (micro version) numbers change, it means you need to upgrade Pidgin, Finch, and libpurple, but your existing plugins will still work.  No matter what the Pidgin, Finch, and libpurple version numbers are, you should always be using the newest version.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;&#x3C;h2&#x3E;Structure (&#x201C;struct&#x201D;) Hiding&#x3C;/h2&#x3E;This paragraph is for those who aren&#x27;t programmers.  Feel free to skip it if you don&#x27;t care about it.  Pidgin is written in the C language.  C has a type system, which means that if you declare a variable (imagine this as a box somewhere in your computer&#x27;s memory) you can store only one type of data in it.  A structure, or struct in C parlance, is a type made up of other types arranged sequentially.  This is pretty easy to picture if you think of Lego blocks--stack a red block, a blue block, a green block, a yellow block, and a white block on top of each other and connect them together and you now have a structure made out of Lego blocks.  It&#x27;s pretty similar in C, except that you&#x27;re telling the compiler to assemble something out of sequential boxes of memory instead of little plastic blocks.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;Pidgin uses structs everywhere.  We use them to represent things like your buddies, conversations, accounts, etc.  Currently in Pidgin 2.10.0, most of the structs are in the public API&#x2014;that is, anyone can directly access the members of the structs and do whatever they like.  This is all fine and well, but it means that if our code changes such that a particular struct needs to grow significantly by the addition of new members, we can&#x27;t always do that without breaking backward compatibility.  (Yes, we included padding in a number of our structs, but we&#x27;ve burned through the padding in several of them, and although there are ways to work around it, I and a few other developers don&#x27;t like them.)  It also means that if we discover, for example, that switching the order of members in a struct allows the compiler to improve its optimizations or if we think a different order makes more logical sense for those of us reading and maintaining the code, we absolutely can&#x27;t do this without breaking compatibility.  We also can&#x27;t rename members of structs for the same reason&#x2014;it breaks compatibility with existing plugins, UI&#x27;s, etc.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;Because having these structs in the public API limits us so much, we&#x27;re striving to hide as many of them as possible.  By hiding, we mean that we&#x27;re removing the struct definitions from the header files and moving them to the .c files, thus making them private.  Plugin and UI authors will still be able to reference the &#x201C;objects&#x201D; with pointers, passing them to functions and operating on them with the appropriate sections of our public API, but no longer will the members of the structs be directly accessible outside of the .c files that define the functions that interact with them.  For example, we have a PurpleRoomlist struct in libpurple/roomlist.c and libpurple/roomlist.h.  For 3.0.0, the struct definition is in roomlist.c; thus the individual members are not directly accessible outside roomlist.c, even in other parts of libpurple.  This &#x201C;hiding&#x201D; of the strcuts allows us significant internal flexibility in each file to modify the struct as we see fit.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;&#x3C;h2&#x3E;Clean-Slate API Documentation&#x3C;/h2&#x3E;Because we generally change so much each time we increase our major version number, the API documentation can get a bit confusing if we keep doing &#x3C;code&#x3E;@since&#x3C;/code&#x3E; tags and whatnot in our doxygen documentation.  Our general overall feeling is that we prefer just starting with a clean slate at each new major version.  This means that each time we do a new major version, all existing &#x3C;code&#x3E;@since&#x3C;/code&#x3E; tags will disappear, any functions marked as &#x3C;code&#x3E;@deprecated&#x3C;/code&#x3E; will be removed, renamed, or replaced as described in the &#x3C;code&#x3E;@deprecated&#x3C;/code&#x3E; statement, and so on.  We realize this decision may make some things more difficult for some plugin and UI authors, and we apologize for that, but our aim is to have overall cleaner documentation for everyone.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;&#x3C;h2&#x3E;Merging of Old Projects&#x3C;/h2&#x3E;Over the years that we&#x27;ve participated in Google&#x27;s Summer of Code program, we&#x27;ve accumulated a number of branches that have been sitting for quite some time.  Most of these need some form of TLC and integration work.  We want to try to incorporate at least some of them into 3.0.0 so we can finally benefit from the fruits of the students&#x27; labor.  Most notably, we&#x27;ve been talking about merging the webkit integration branch into what will become 3.0.0.  Eventually, this would allow the support of Adium&#x27;s message styles, although it may not happen right away.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;Another project of notable interest is some of the logging changes that went on in a previous Summer of Code project.  One of our new Crazy Patch Writers took some of that work and made some progress on it; we don&#x27;t know if this will make it for 3.0.0 or not yet, but it would be nice to have some of the features, such as non-blocking log writing.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;&#x3C;h2&#x3E;Other Changes As Wanted&#x3C;/h2&#x3E;We may decide to make other changes since a major version change gives us the opportunity to break so much.  There have been a number of ideas floated, ranging from supporting that XDG directory spec that I can&#x27;t stand to doing away with the xml files in .purple and replacing them with something else (with what, in particular, has not seriously been discussed).  There is a whole range of possibilities of things we could do for 3.0.0; it&#x27;s just a matter of one of us wanting it and sitting down to write it.
+&#x3C;br /&#x3E;
+&#x3C;br /&#x3E;So everyone should stay tuned, as we&#x27;ll be making more and more changes over the course of the 3.0.0 development cycle.  We don&#x27;t yet know when we&#x27;ll be releasing 3.0.0&#x2014;this is another one of our famous &#x201C;when it&#x27;s ready, and not a minute before&#x201D; time frames.  We do know, however, that it will change a lot!</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2011/08/major-changes-afoot.html</guid>
+</item>
+<item>
+<title>Current AIM Issues</title>
+<link>https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2011/02/current-aim-issues.html</link>
+<description>
+Over the last couple hours, we&#x27;ve had nearly everyone and his/her brother in #pidgin asking about connections to AIM causing a certificate prompt.  The specific prompt is for bos.oscar.aol.com.  The issue here appears to be that AOL has let the certificate expire.  Because our certificate validation is more strict than some other applications, Pidgin users will get this prompt at every connection until AOL installs an updated certificate.&#x3C;br /&#x3E;&#x3C;br /&#x3E;&#x3C;div&#x3E;To resolve the prompt, you can make one of a couple choices.  You can choose to trust that the connection is fine even though the certificate is expired and click Accept, or you can take the safe route and click Reject until AOL replaces the certificate.</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2011/02/current-aim-issues.html</guid>
+</item>
+<item>
+<title>Complex Transient Statuses for Quick Effect</title>
+<link>https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2010/01/complex-transient-statuses-for-quick.html</link>
+<description>
+&#x3C;div&#x3E;&#x3C;br /&#x3E;In an &#x3C;a href=&#x22;http://theflamingbanker.blogspot.com/2009/02/saved-statuses-for-fun-and-profit.html&#x22;&#x3E;earlier post&#x3C;/a&#x3E;, I discussed how to take advantage of Pidgin&#x27;s &#x22;saved status&#x22; feature. After seeing some recent confusion in #pidgin about our status features, I decided it would be a good idea to give a quick overview on how to take advantage of a feature I never use--creating statuses (including complex statuses) from the status selector on the buddy list window.&#x3C;br /&#x3E;&#x3C;br /&#x3E;The status selector feels like it&#x27;s been around forever. Prior to this, we had a rather horrible interface to &#x22;status&#x22; whereby you could either globally set all accounts to &#x22;away&#x22; or go to each individual account and configure a given status (away, do not disturb, vacation, etc.). All this was done via a single menu. For those of you who don&#x27;t remember it, let me just say that it &#x3C;span&#x3E;&#x3C;span&#x3E;sucked&#x3C;/span&#x3E;&#x3C;/span&#x3E;. Someone (I think it was Sean Egan) threw that whole UI out the window and came up with the current status selector that reminds me a lot of the old Windows ICQ 99 client that had a pretty similar status selector. Ours is a bit more sophisticated, though.&#x3C;br /&#x3E;&#x3C;br /&#x3E;The simple use of the status selector is fairly obvious--pick a status and type a message. In fact, this is what the majority of our users do when they change statuses. This is what is called a transient status. What most people don&#x27;t know, however, is that you can create complex statuses, such as having your MSN account set to &#x22;Busy&#x22; while your AIM account is set to &#x22;Invisible.&#x22; Let&#x27;s give a quick example.&#x3C;br /&#x3E;&#x3C;div&#x3E;&#x3C;br /&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2010/01/complex-transient-statuses-for-quick.html</guid>
+</item>
+<item>
+<title>Fun at the GSoC Mentors Summit</title>
+<link>https://planet.pidgin.imhttp://qulogic.blogspot.com/2010/10/fun-at-gsoc-mentors-summit.html</link>
+<description>
+&#x3C;p&#x3E;Last weekend was the &#x3C;a href=&#x22;http://gsoc-wiki.osuosl.org/index.php/2010&#x22;&#x3E;GSoC Mentors Summit&#x3C;/a&#x3E;. As a &#x3C;a href=&#x22;http://qulogic.blogspot.com/2010/05/mentoring-student-for-gsoc.html&#x22;&#x3E;mentor&#x3C;/a&#x3E; for the Pidgin, Finch and libpurple project, I attended for the first time this year.&#x3C;/p&#x3E; &#x3C;p&#x3E; It was pretty interesting and a lot of fun, but I have to say I didn&#x27;t really feel like much of a geek there! Everyone&#x27;s either got an iPhone or a Droid, and they&#x27;ve all done awesome stuff. Can you say you&#x27;ve worked on &#x3C;a href=&#x22;http://wordpress.org/&#x22;&#x3E;WordPress&#x3C;/a&#x3E;, used by millions of websites, or &#x3C;a href=&#x22;http://www.apache.org/&#x22;&#x3E;Apache&#x3C;/a&#x3E;, serving even more websites, or &#x3C;a href=&#x22;http://www.rtems.com/&#x22;&#x3E;RTEMS&#x3C;/a&#x3E;, running several space exploration instruments and other consumer products, or who knows what else?&#x3C;/p&#x3E; &#x3C;p&#x3E;Nevertheless, it wasn&#x27;t like I was totally unknown. There were quite a few people who use Pidgin, even one or two using Finch. Oh, and some Mac users using Adium (using libpurple), too.&#x3C;/p&#x3E; &#x3C;p&#x3E;The flight was fine, but the weather was a bit disappointed. It would have been nicer to explore a bit more, but at least I got to eat a ton of chocolate. I&#x27;ll try and write a longer re-cap later.&#x3C;/p&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttp://qulogic.blogspot.com/2010/10/fun-at-gsoc-mentors-summit.html</guid>
+</item>
+<item>
+<title>MSNP16 and SLP-rewrite merged</title>
+<link>https://planet.pidgin.imhttp://salinasv.blogspot.com/2010/11/msnp16-and-slp-rewrite-merged.html</link>
+<description>
+I have just pushed the revision that merges my MSNP16 and SLP branches to the main development branch in pidgin. I&#x27;m very happy to have this branches merged since they represent almost all the code I have been writing on the last year.&#x3C;br /&#x3E;&#x3C;br /&#x3E;Yes I have started coding MSNP16 support almost a year ago and it took a lot of effort, reverse engineering, debugging Wireshark dumps and a lot of pidgin debug logs to get it working. That is a lot of time!&#x3C;br /&#x3E;&#x3C;br /&#x3E;It is true that the MSNP16 code was almost complete when I started my SoC work but I though it would be better to start the SLP rewrite over the MSNP16 branch to be able to easily test both codes at the same time and try to get it in a better shape before merging it to i.p.p.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I know I have announced this merge like two weeks ago, but you know, I wanted this merge to be followed by a reasonable &#x22;beta&#x22; testing before being released and at that time it got that we had an security issue and needed to release 2.7.4. Once it was out, there were some ICQ issues that needed a quick release to fix that bugs, so we got a 2.7.5. Now I was able to merge and get a normal release cycle to get beta testers to find bugs in this new and nice code.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I hope this code will fix more issues than it brings up, specially the ones related to data transfer. Since most of the code on this area have changed due DirectConn and SLP-rewrite, I guesss it would be a good idea to review and close most of the related tickets since the traceback and debug output would be really useless now. Yei for smashing tickets!&#x3C;br /&#x3E;&#x3C;br /&#x3E;I hope you all like 2.7.6 when it get released!</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttp://salinasv.blogspot.com/2010/11/msnp16-and-slp-rewrite-merged.html</guid>
+</item>
+<item>
+<title>Death of a thousand tickets</title>
+<link>https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2010/10/death-of-thousand-tickets.html</link>
+<description>
+Well, by now it&#x27;s obvious to the world that I kicked Pidgin 2.7.4 out of the nest last week.  Although that release included some nice new features for ICQ users, lots of bug fixes, and some remote crash fixes, it&#x27;s not without its share of problems.  Those problems are producing a bunch of duplicate tickets for us to deal with, so I thought it might be a good idea to post about them here just in case anyone bothers to read my rambling.&#x3C;br /&#x3E;&#x3C;br /&#x3E;The first problem is the AIM/ICQ chat bug.  When using a multi-user chat on AIM or ICQ, no messages can be sent.  You&#x27;ll get an error stating your message was too long.  This was an unintended side effect of merging the work of one of our Summer of Code students.  Ivan accidentally removed a line of code that he shouldn&#x27;t have.  Yes, you read that right--a single line of code.  Apparently it was pretty important!  Ivan restored that line and things will be working as they should in 2.7.5 when we release it.&#x3C;div&#x3E;&#x3C;br /&#x3E;</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2010/10/death-of-thousand-tickets.html</guid>
+</item>
+<item>
+<title>Merge Plan for MSNP16 and SLP</title>
+<link>https://planet.pidgin.imhttp://salinasv.blogspot.com/2010/09/merge-plan-for-msnp16-and-slp.html</link>
+<description>
+As you know I have been working on a refactor for the SLP code on the msn-prpl for libpurple as part of my Summer of Code. Before I started this project I have been working on adding support for &#x22;Multiple Points Of Presence&#x22; which are part of the MSN Protocol 16 (MSNP16).&#x3C;br /&#x3E;&#x3C;br /&#x3E;Since by the time I started the SoC the msnp16 code was almost complete, I started to refactor the SLP module over the msnp16 code. At some time in the process of the refactio I got an ugly crash from one of the features of MSNP16, the P2P version 2 which uses a different binary header for SLP transfers than the one used before. This bug was caused by some clients not paying attention to the capabilities we expose, we clearly say we don&#x27;t support P2P V2. To avoid this crash I have disabled MSNP16 in the SLP branch.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I have been testing the SLP code for a while with the MSNP16 feature enabled and it looks stable to be merged. The crash has gone, there are some minor changes that must be done, specially UI stuff, the new SLP stack have no known bug.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I have updated the SLP branch with the latest changes from the MSNP16 branch, so this branch [1] have every work waiting to be merged to pidgin&#x27;s main development branch. This was the first step to get it merge-ready. There have been some testing form some of our closest geeky-friends and now I think it&#x27;s ready.&#x3C;br /&#x3E;&#x3C;br /&#x3E;My plan is to merge the SLP code with the MSNP16 feature enabled the next week to im.pidgin.pidgin. I ask everyone interested in this features to test it before it get to main branch so we can have a softer merging process.&#x3C;br /&#x3E;&#x3C;br /&#x3E;[1] im.pidgin.soc.2010.msn-tlc</description>
+<guid isPermaLink="true">https://planet.pidgin.imhttp://salinasv.blogspot.com/2010/09/merge-plan-for-msnp16-and-slp.html</guid>
+</item>
+</channel>
+</rss>
