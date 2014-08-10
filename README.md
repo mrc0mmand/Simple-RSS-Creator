@@ -1,6 +1,6 @@
 # Simple RSS Creator
 
-Simple perl script which generates RSS feeds from given website(s) according to parameters in configuration file.
+Simple perl script which generates RSS feeds from given website(s) according to options defined in the configuration file.
 
 ## Configuration file
 Every feed has its own section in configuration file which consists of:
