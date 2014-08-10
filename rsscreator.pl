@@ -52,6 +52,8 @@ sub createFeeds {
 
 		my @matches;
 		my $cnt = $item->{"maxitems"};
+
+		$item->{"itemregex"} =~ s/\//\\\//;
 		push @matches, [$1, $2, $3] while $content =~ /$item->{"itemregex"}/gs and $cnt-- > 0;
 
 		for my $m (@matches) {
