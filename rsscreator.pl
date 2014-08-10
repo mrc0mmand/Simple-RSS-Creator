@@ -33,10 +33,10 @@ sub createFeeds {
 		print "Processing feed: " . $item->{"title"} . "\n";
 
 		my $content = get($item->{"link"});
-		if (not defined $content) {
+		if(not defined $content) {
 			print "Unable to open URL " . $item->{"link"} . "\n"; 
 			next;
-		} 
+		}
 
 		my $dt = DateTime->now();
 		my $rss = XML::RSS->new(version => '2.0');
@@ -64,5 +64,24 @@ sub createFeeds {
 		}
 
 		$rss->save($item->{"file"});
+	}
+}
+
+sub testRegex {
+	my($regex, $url, $max) = @_;
+	
+	if(not defined $max) {
+		$max = 5;
+	}
+
+	my $content = get($url);
+	if (not defined $content) {
+		print "Unable to open URL " . $url . "\n"; 
+		exit 1;
+	}
+
+	$regex =~ s/\//\\\//;
+	while($content =~ /$regex/gs and $max-- > 0) {
+		print "\$0: $1\n\$1: $2\n\$2: " . substr($3, 0, 50) . "\n" . ('-' x 30) . "\n";
 	}
 }
