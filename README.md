@@ -21,3 +21,4 @@ The configuration file uses JSON format and allows you to have multiple feeds in
 - JSON
 - URI
 - DateTime
+- Getopt::Std
