@@ -9,7 +9,8 @@ use URI qw/new_abs/;
 use DateTime;
 use Getopt::Std;
 
-$Getopt::Std::STANDARD_HELP_VERSION = 1;
+our $LocalTZ = DateTime::TimeZone->new(name => 'local');
+our $STANDARD_HELP_VERSION = 1;
 my @feeds;
 my %opts = ();
 
@@ -44,7 +45,7 @@ sub parseConfig {
 	close FILE;
 
 	my $decoded = decode_json($json);
-	@feeds = @{ $decoded->{"feeds"} };
+	@feeds = @{$decoded->{"feeds"}};
 }
 
 sub createFeeds {
@@ -57,7 +58,7 @@ sub createFeeds {
 			next;
 		}
 
-		my $dt = DateTime->now();
+		my $dt = DateTime->now(time_zone => $LocalTZ);
 		my $rss = XML::RSS->new(version => '2.0');
 		my $base = URI->new_abs("/", $item->{"link"})->as_string();
 		$base =~ s/\/$//;
