@@ -8,7 +8,9 @@ Simple perl script which generates RSS feeds from given website(s) according to 
 
 If you want to test your regex without writing a config file, you can use script's test feature:
 
-`rsscreator.pl -t -r "[y|Y]our(.*?)rege(x|xp)" https://url.for/rss/feed`
+`rsscreator.pl -t -r "[y|Y]our(.*?)rege(x|xp)" -u https://url.for/rss/feed`
+
+Optionally you can specify number of items you want to parse with `-m xx`
 
 ## Configuration file
 Every feed has its own section in configuration file which consists of:
