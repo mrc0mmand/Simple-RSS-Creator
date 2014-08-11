@@ -8,7 +8,7 @@
 <title>Example Feed</title>
 <link>https://planet.pidgin.im/</link>
 <description>My Example RSS Feed</description>
-<lastBuildDate>Sun, 10 Aug 2014 20:33:17 +0000</lastBuildDate>
+<lastBuildDate>Mon, 11 Aug 2014 23:21:51 +0200</lastBuildDate>
 
 <item>
 <title>More Windows, more features</title>
@@ -31,6 +31,7 @@
 &#x3C;p&#x3E;Ultimately, I decided to invest two days of my life and create my own plugin. It &#x3C;em&#x3E;just works&#x3C;/em&#x3E;, covering all attributes I liked in other instant messengers with such feature. It&#x26;#8217;s simple, stable and fits into the Pidgin UI well.&#x3C;/p&#x3E;
 &#x3C;p&#x3E;I plan to extend its functionality with another plugin. For now, it&#x26;#8217;s only possible to send screenshots over protocols with inline images support. Thus, you can not use it with XMPP or IRC. The second plugin will allow for uploading images to imgur (or similar services) for protocols that doesn&#x26;#8217;t support images.&#x3C;/p&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2014/more-windows-more-features/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Smile!</title>
@@ -51,6 +52,7 @@
 &#x3C;h2&#x3E;What&#x26;#8217;s next?&#x3C;/h2&#x3E;
 &#x3C;p&#x3E;In 3.0.0 branch there were a lot of smiley- and image-related issues and I haven&#x26;#8217;t described all of them. But I hope I fixed all of them. You can look for details in our hg, in smiley-related commits between &#x3C;a title=&#x22;rev 302a7cb4c1ab + 60&#x22; href=&#x22;http://hg.pidgin.im/pidgin/main/shortlog/05981ff3fb7b&#x22;&#x3E;302a7cb4c1ab&#x3C;/a&#x3E; and &#x3C;a href=&#x22;http://hg.pidgin.im/pidgin/main/shortlog/d598e7950c34&#x22;&#x3E;d598e7950c34&#x3C;/a&#x3E;. Now, I am focused on the permanent issue &#x26;#8211; the Windows version.&#x3C;/p&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2014/smile/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>In Support of Instant Messaging Communications Freedom</title>
@@ -399,6 +401,7 @@
 &#x3C;/p&#x3E;
 </description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://kb8ojh.net/elb/musings/in-support-of-im-freedom.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Off-the-Record Messaging &#x2013; the true privacy</title>
@@ -430,6 +433,7 @@
 &#x3C;p&#x3E;&#x3C;a href=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/10/otr-auth-2.png&#x22; title=&#x22;Second step of buddy authentication&#x22;&#x3E;&#x3C;img class=&#x22;wp-image-704 alignright&#x22; alt=&#x22;Second step of buddy authentication&#x22; src=&#x22;http://blog.wasilczyk.pl/wp-content/uploads/2013/10/otr-auth-2.png&#x22; width=&#x22;250&#x22; height=&#x22;154&#x22; /&#x3E;&#x3C;/a&#x3E;&#x3C;/p&#x3E;
 &#x3C;div&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2013/off-the-record-messaging/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>101 HTTP implementations</title>
@@ -449,6 +453,7 @@
 &#x3C;p&#x3E;There are still two remaining, but I&#x26;#8217;m not sure if I will refactor them at all. The first one is for Gadu-Gadu protocol &#x26;#8211; it&#x26;#8217;s included in libgadu library, so it&#x26;#8217;s not trivial to pull it out without violating its API. The second is for Novell GroupWise Instant Messenger &#x26;#8211; a closed service, available for companies. There are no public test servers, which I could try out. Also installation and configuration of its demo overwhelmed me (in fact, it&#x26;#8217;s buggy). I&#x26;#8217;m not sure if it&#x26;#8217;s worth the effort to do both cases above.&#x3C;/p&#x3E;
 &#x3C;p&#x3E;My next task will be &#x3C;a href=&#x22;http://www.cypherpunks.ca/otr/&#x22;&#x3E;Off-the-record&#x3C;/a&#x3E; plugin refinement and integration into the main tree.&#x3C;/p&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2013/101-http-implementations/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Pidgin with Video finally for Windows</title>
@@ -463,6 +468,7 @@
 &#x3C;p&#x3E;The source code is available directly from the &#x3C;a href=&#x22;http://hg.pidgin.im/pidgin/main/&#x22;&#x3E;hg repository&#x3C;/a&#x3E; and &#x3C;a href=&#x22;https://build.opensuse.org/project/show?project=home%3Atomkiewicz%3Agst0&#x22;&#x3E;openSUSE Build Service project&#x3C;/a&#x3E; (for dependencies). If you just want to test the VV feature on Windows, you can just grab the &#x3C;a href=&#x22;https://dl.dropboxusercontent.com/u/5448886/pidgin-builds/pidgin-vv-d44a3e57992c.exe&#x22;&#x3E;offline installer&#x3C;/a&#x3E;.&#x3C;/p&#x3E;
 &#x3C;p&#x3E;As always, I&#x26;#8217;m waiting for any feedback, bug reports and comments.&#x3C;/p&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://blog.wasilczyk.pl/en/2013/pidgin-with-video-finally-for-windows/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Four Pidgin Summer of Code students</title>
@@ -478,6 +484,7 @@
 &#x3C;p&#x3E;We&#x26;#8217;re looking forward to seeing what they create! The coding period begins June 17 and ends September 23.&#x3C;/p&#x3E;
 &#x3C;p&#x3E;As always, thanks to everyone who applied. And remember, this is an open source project and you&#x26;#8217;re &#x3C;a href=&#x22;https://developer.pidgin.im/wiki/PidginCommunity#CanIhelp&#x22;&#x3E;welcome to contribute&#x3C;/a&#x3E; even if you&#x26;#8217;re not participating in Summer of Code.&#x3C;/p&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2013/05/four-pidgin-summer-of-code-students/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Students: Apply to Pidgin Google Summer of Code now!</title>
@@ -485,6 +492,7 @@
 <description>
 &#x3C;p&#x3E;The application period for applying to Google Summer of Code opened on Monday and we&#x26;#8217;ve already received a number of applications.  The application period closes next Friday, May 3rd.  Just 8 days left&#x26;mdash;don&#x26;#8217;t wait, submit your application soon!&#x3C;/p&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2013/04/students-apply-to-pidgin-google-summer-of-code-now/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Pidgin in Google Summer of Code 2013</title>
@@ -494,6 +502,7 @@
 &#x3C;p&#x3E;For more information, &#x3C;a href=&#x22;http://google-opensource.blogspot.com/2013/04/mentoring-organizations-for-google.html&#x22;&#x3E;read Google&#x26;#8217;s announcement&#x3C;/a&#x3E;, &#x3C;a href=&#x22;http://www.google-melange.com/gsoc/org/google/gsoc2013/pidgin&#x22;&#x3E;peruse our application template&#x3C;/a&#x3E;, and &#x3C;a href=&#x22;https://developer.pidgin.im/wiki/FutureSOCProjects&#x22;&#x3E;see our list of project ideas&#x3C;/a&#x3E;.  The application period beings April 22nd&#x26;mdash;just two short weeks away!&#x3C;/p&#x3E;
 &#x3C;p&#x3E;We always encourage our users to brainstorm and share your ideas on improvements you would like to see in Pidgin, Finch, and libpurple.  Feel free to share thoughts and ask questions on our &#x3C;a href=&#x22;https://pidgin.im/cgi-bin/mailman/listinfo/devel&#x22;&#x3E;devel mailing list&#x3C;/a&#x3E;.&#x3C;/p&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2013/04/pidgin-in-google-summer-of-code-2013/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Pidgin and the Impending Shutdown of Windows Live Messenger</title>
@@ -501,6 +510,7 @@
 <description>
 &#x3C;br /&#x3E;So, Microsoft recently announced that they&#x2019;ll terminate the Windows Live Messenger service in favor of Skype in early 2013. &#x26;nbsp;We&#x2019;ve been getting a number of questions about what this means for Pidgin. &#x26;nbsp;Quite honestly, we don&#x2019;t know. &#x26;nbsp;At this point, all we know is that China will still be able to use Windows Live Messenger. &#x26;nbsp;That leads us to believe that the servers providing MSNP service will remain active and maintained for some period of time after the announced shutdown, but it&#x2019;s not clear whether or not that will be the case. &#x26;nbsp;It&#x2019;s also not clear if the servers supporting China&#x2019;s continued use of WLM will be accessible to non-Chinese IP space. &#x26;nbsp;Even further, it&#x2019;s not clear if the recently-launched XMPP interface to the WLM network will remain functional. &#x26;nbsp;We don&#x2019;t support that yet though, as it requires some authentication magic we don&#x2019;t implement. &#x26;nbsp;Even if we implement support for the authentication this XMPP gateway requires, it could end up being a waste of time, as it could get shut down at any time, either before or after the rest of WLM.&#x3C;br /&#x3E;&#x3C;br /&#x3E;And before anyone goes there, we can&#x2019;t support Skype. &#x26;nbsp;There is no documentation of the protocol available to us, nor is there code we can borrow from a cleanly reverse-engineered alternative implementation. &#x26;nbsp;All that exists is SkypeKit, whose license agreement explicitly forbids its use in open-source software. &#x26;nbsp;The license also forbids use in &#x201C;server applications&#x201D; which precludes doing something like wrapping a simple closed-source XMPP daemon around SkypeKit. &#x26;nbsp;It is not currently possible to legally support Skype, so we won&#x2019;t try.&#x3C;br /&#x3E;&#x3C;br /&#x3E;The bottom line is we have no idea what the announcement means for Pidgin or any other alternative clients yet. &#x26;nbsp;We&#x2019;ll all just have to wait and see.&#x3C;br /&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2012/11/pidgin-and-impending-shutdown-of.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Announcing our four Summer of Code students!</title>
@@ -516,6 +526,7 @@
 &#x3C;p&#x3E;It&#x26;#8217;s always difficult to narrow down so many great applications into just a handful, and we want to thank everyone who applied.  The coding period runs from May 21 through August 24.  If you want to follow the progress of the four students, they&#x26;#8217;ll be providing periodic status updates to our &#x3C;a href=&#x22;http://pidgin.im/cgi-bin/mailman/listinfo/devel&#x22;&#x3E;devel mailing list&#x3C;/a&#x3E; throughout the summer.&#x3C;/p&#x3E;
 &#x3C;p&#x3E;Read &#x3C;a href=&#x22;http://google-opensource.blogspot.com/2012/04/students-announced-for-google-summer-of.html&#x22;&#x3E;Google&#x26;#8217;s official announcement here&#x3C;/a&#x3E;.&#x3C;/p&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2012/04/announcing-our-four-summer-of-code-students/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Libpurple in GSoC 2012</title>
@@ -523,6 +534,7 @@
 <description>
 Libpurple was accepted in the &#x3C;a href=&#x22;http://www.google-melange.com/&#x22;&#x3E;Google Summer of Code&#x3C;/a&#x3E;&#x26;nbsp; this year 2012.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I urge every student reading this to apply for any of the projects accepted and if you like, apply to Libpurple.&#x3C;br /&#x3E;&#x3C;br /&#x3E;We have a set of &#x3C;a href=&#x22;http://developer.pidgin.im/wiki/FutureSOCProjects&#x22;&#x3E;proposed ideas&#x3C;/a&#x3E; but you are encouraged to bring your own ideas since they will be fresher and will not compete with other people over the same project.&#x3C;br /&#x3E;&#x3C;br /&#x3E;You can find libpurple&#x27;s application page at&#x26;nbsp;&#x3C;a href=&#x22;http://www.google-melange.com/gsoc/org/google/gsoc2012/pidgin&#x22;&#x3E;Pidgin, Finch and libpurple&#x3C;/a&#x3E;.</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttp://salinasv.blogspot.com/2012/03/libpurple-in-gsoc-2012.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Pidgin Accepted to 2012 Summer of Code!</title>
@@ -547,6 +559,7 @@ Libpurple was accepted in the &#x3C;a href=&#x22;http://www.google-melange.com/&
 &#x3C;li&#x3E;If IM isn&#x26;#8217;t your thing but you still want to participate, &#x3C;a href=&#x22;http://www.google-melange.com/gsoc/accepted_orgs/google/gsoc2012&#x22;&#x3E;check out the list of other great organizations&#x3C;/a&#x3E;&#x3C;/li&#x3E;
 &#x3C;/ul&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttps://kingant.net/2012/03/pidgin-accepted-to-2012-summer-of-code/</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Major Changes Afoot</title>
@@ -580,6 +593,7 @@ Well, it&#x27;s been about forever since I last bothered to post anything here. 
 &#x3C;br /&#x3E;
 &#x3C;br /&#x3E;So everyone should stay tuned, as we&#x27;ll be making more and more changes over the course of the 3.0.0 development cycle.  We don&#x27;t yet know when we&#x27;ll be releasing 3.0.0&#x2014;this is another one of our famous &#x201C;when it&#x27;s ready, and not a minute before&#x201D; time frames.  We do know, however, that it will change a lot!</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2011/08/major-changes-afoot.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Current AIM Issues</title>
@@ -587,6 +601,7 @@ Well, it&#x27;s been about forever since I last bothered to post anything here. 
 <description>
 Over the last couple hours, we&#x27;ve had nearly everyone and his/her brother in #pidgin asking about connections to AIM causing a certificate prompt.  The specific prompt is for bos.oscar.aol.com.  The issue here appears to be that AOL has let the certificate expire.  Because our certificate validation is more strict than some other applications, Pidgin users will get this prompt at every connection until AOL installs an updated certificate.&#x3C;br /&#x3E;&#x3C;br /&#x3E;&#x3C;div&#x3E;To resolve the prompt, you can make one of a couple choices.  You can choose to trust that the connection is fine even though the certificate is expired and click Accept, or you can take the safe route and click Reject until AOL replaces the certificate.</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2011/02/current-aim-issues.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Complex Transient Statuses for Quick Effect</title>
@@ -594,6 +609,7 @@ Over the last couple hours, we&#x27;ve had nearly everyone and his/her brother i
 <description>
 &#x3C;div&#x3E;&#x3C;br /&#x3E;In an &#x3C;a href=&#x22;http://theflamingbanker.blogspot.com/2009/02/saved-statuses-for-fun-and-profit.html&#x22;&#x3E;earlier post&#x3C;/a&#x3E;, I discussed how to take advantage of Pidgin&#x27;s &#x22;saved status&#x22; feature. After seeing some recent confusion in #pidgin about our status features, I decided it would be a good idea to give a quick overview on how to take advantage of a feature I never use--creating statuses (including complex statuses) from the status selector on the buddy list window.&#x3C;br /&#x3E;&#x3C;br /&#x3E;The status selector feels like it&#x27;s been around forever. Prior to this, we had a rather horrible interface to &#x22;status&#x22; whereby you could either globally set all accounts to &#x22;away&#x22; or go to each individual account and configure a given status (away, do not disturb, vacation, etc.). All this was done via a single menu. For those of you who don&#x27;t remember it, let me just say that it &#x3C;span&#x3E;&#x3C;span&#x3E;sucked&#x3C;/span&#x3E;&#x3C;/span&#x3E;. Someone (I think it was Sean Egan) threw that whole UI out the window and came up with the current status selector that reminds me a lot of the old Windows ICQ 99 client that had a pretty similar status selector. Ours is a bit more sophisticated, though.&#x3C;br /&#x3E;&#x3C;br /&#x3E;The simple use of the status selector is fairly obvious--pick a status and type a message. In fact, this is what the majority of our users do when they change statuses. This is what is called a transient status. What most people don&#x27;t know, however, is that you can create complex statuses, such as having your MSN account set to &#x22;Busy&#x22; while your AIM account is set to &#x22;Invisible.&#x22; Let&#x27;s give a quick example.&#x3C;br /&#x3E;&#x3C;div&#x3E;&#x3C;br /&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2010/01/complex-transient-statuses-for-quick.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Fun at the GSoC Mentors Summit</title>
@@ -601,6 +617,7 @@ Over the last couple hours, we&#x27;ve had nearly everyone and his/her brother i
 <description>
 &#x3C;p&#x3E;Last weekend was the &#x3C;a href=&#x22;http://gsoc-wiki.osuosl.org/index.php/2010&#x22;&#x3E;GSoC Mentors Summit&#x3C;/a&#x3E;. As a &#x3C;a href=&#x22;http://qulogic.blogspot.com/2010/05/mentoring-student-for-gsoc.html&#x22;&#x3E;mentor&#x3C;/a&#x3E; for the Pidgin, Finch and libpurple project, I attended for the first time this year.&#x3C;/p&#x3E; &#x3C;p&#x3E; It was pretty interesting and a lot of fun, but I have to say I didn&#x27;t really feel like much of a geek there! Everyone&#x27;s either got an iPhone or a Droid, and they&#x27;ve all done awesome stuff. Can you say you&#x27;ve worked on &#x3C;a href=&#x22;http://wordpress.org/&#x22;&#x3E;WordPress&#x3C;/a&#x3E;, used by millions of websites, or &#x3C;a href=&#x22;http://www.apache.org/&#x22;&#x3E;Apache&#x3C;/a&#x3E;, serving even more websites, or &#x3C;a href=&#x22;http://www.rtems.com/&#x22;&#x3E;RTEMS&#x3C;/a&#x3E;, running several space exploration instruments and other consumer products, or who knows what else?&#x3C;/p&#x3E; &#x3C;p&#x3E;Nevertheless, it wasn&#x27;t like I was totally unknown. There were quite a few people who use Pidgin, even one or two using Finch. Oh, and some Mac users using Adium (using libpurple), too.&#x3C;/p&#x3E; &#x3C;p&#x3E;The flight was fine, but the weather was a bit disappointed. It would have been nicer to explore a bit more, but at least I got to eat a ton of chocolate. I&#x27;ll try and write a longer re-cap later.&#x3C;/p&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttp://qulogic.blogspot.com/2010/10/fun-at-gsoc-mentors-summit.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>MSNP16 and SLP-rewrite merged</title>
@@ -608,6 +625,7 @@ Over the last couple hours, we&#x27;ve had nearly everyone and his/her brother i
 <description>
 I have just pushed the revision that merges my MSNP16 and SLP branches to the main development branch in pidgin. I&#x27;m very happy to have this branches merged since they represent almost all the code I have been writing on the last year.&#x3C;br /&#x3E;&#x3C;br /&#x3E;Yes I have started coding MSNP16 support almost a year ago and it took a lot of effort, reverse engineering, debugging Wireshark dumps and a lot of pidgin debug logs to get it working. That is a lot of time!&#x3C;br /&#x3E;&#x3C;br /&#x3E;It is true that the MSNP16 code was almost complete when I started my SoC work but I though it would be better to start the SLP rewrite over the MSNP16 branch to be able to easily test both codes at the same time and try to get it in a better shape before merging it to i.p.p.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I know I have announced this merge like two weeks ago, but you know, I wanted this merge to be followed by a reasonable &#x22;beta&#x22; testing before being released and at that time it got that we had an security issue and needed to release 2.7.4. Once it was out, there were some ICQ issues that needed a quick release to fix that bugs, so we got a 2.7.5. Now I was able to merge and get a normal release cycle to get beta testers to find bugs in this new and nice code.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I hope this code will fix more issues than it brings up, specially the ones related to data transfer. Since most of the code on this area have changed due DirectConn and SLP-rewrite, I guesss it would be a good idea to review and close most of the related tickets since the traceback and debug output would be really useless now. Yei for smashing tickets!&#x3C;br /&#x3E;&#x3C;br /&#x3E;I hope you all like 2.7.6 when it get released!</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttp://salinasv.blogspot.com/2010/11/msnp16-and-slp-rewrite-merged.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Death of a thousand tickets</title>
@@ -615,6 +633,7 @@ I have just pushed the revision that merges my MSNP16 and SLP branches to the ma
 <description>
 Well, by now it&#x27;s obvious to the world that I kicked Pidgin 2.7.4 out of the nest last week.  Although that release included some nice new features for ICQ users, lots of bug fixes, and some remote crash fixes, it&#x27;s not without its share of problems.  Those problems are producing a bunch of duplicate tickets for us to deal with, so I thought it might be a good idea to post about them here just in case anyone bothers to read my rambling.&#x3C;br /&#x3E;&#x3C;br /&#x3E;The first problem is the AIM/ICQ chat bug.  When using a multi-user chat on AIM or ICQ, no messages can be sent.  You&#x27;ll get an error stating your message was too long.  This was an unintended side effect of merging the work of one of our Summer of Code students.  Ivan accidentally removed a line of code that he shouldn&#x27;t have.  Yes, you read that right--a single line of code.  Apparently it was pretty important!  Ivan restored that line and things will be working as they should in 2.7.5 when we release it.&#x3C;div&#x3E;&#x3C;br /&#x3E;</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttp://theflamingbanker.blogspot.com/2010/10/death-of-thousand-tickets.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 <item>
 <title>Merge Plan for MSNP16 and SLP</title>
@@ -622,6 +641,7 @@ Well, by now it&#x27;s obvious to the world that I kicked Pidgin 2.7.4 out of th
 <description>
 As you know I have been working on a refactor for the SLP code on the msn-prpl for libpurple as part of my Summer of Code. Before I started this project I have been working on adding support for &#x22;Multiple Points Of Presence&#x22; which are part of the MSN Protocol 16 (MSNP16).&#x3C;br /&#x3E;&#x3C;br /&#x3E;Since by the time I started the SoC the msnp16 code was almost complete, I started to refactor the SLP module over the msnp16 code. At some time in the process of the refactio I got an ugly crash from one of the features of MSNP16, the P2P version 2 which uses a different binary header for SLP transfers than the one used before. This bug was caused by some clients not paying attention to the capabilities we expose, we clearly say we don&#x27;t support P2P V2. To avoid this crash I have disabled MSNP16 in the SLP branch.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I have been testing the SLP code for a while with the MSNP16 feature enabled and it looks stable to be merged. The crash has gone, there are some minor changes that must be done, specially UI stuff, the new SLP stack have no known bug.&#x3C;br /&#x3E;&#x3C;br /&#x3E;I have updated the SLP branch with the latest changes from the MSNP16 branch, so this branch [1] have every work waiting to be merged to pidgin&#x27;s main development branch. This was the first step to get it merge-ready. There have been some testing form some of our closest geeky-friends and now I think it&#x27;s ready.&#x3C;br /&#x3E;&#x3C;br /&#x3E;My plan is to merge the SLP code with the MSNP16 feature enabled the next week to im.pidgin.pidgin. I ask everyone interested in this features to test it before it get to main branch so we can have a softer merging process.&#x3C;br /&#x3E;&#x3C;br /&#x3E;[1] im.pidgin.soc.2010.msn-tlc</description>
 <guid isPermaLink="true">https://planet.pidgin.imhttp://salinasv.blogspot.com/2010/09/merge-plan-for-msnp16-and-slp.html</guid>
+<pubDate>Mon, 11 Aug 2014 23:21:51 +0200</pubDate>
 </item>
 </channel>
 </rss>
