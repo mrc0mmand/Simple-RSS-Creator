@@ -10,17 +10,17 @@ use DateTime;
 use Getopt::Std;
 
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
-our $LocalTZ = DateTime::TimeZone->new(name => 'local');
+my $localTZ = DateTime::TimeZone->new(name => 'local');
 my @feeds;
 my %opts = ();
 
-getopts('tc:r:u:m:', \%opts);
+getopts('tc:r:u:l:', \%opts);
 
 if($opts{"c"}) {
 	parseConfig($opts{"c"});
 	createFeeds();
 } elsif($opts{"t"} and $opts{"r"} and $opts{"u"}) {
-	testRegex($opts{"r"}, $opts{"u"}, ($opts{"m"} ? $opts{"t"} : 5));
+	testRegex($opts{"r"}, $opts{"u"}, ($opts{"l"} ? $opts{"l"} : 5));
 } else {
 	HELP_MESSAGE();
 }
@@ -31,7 +31,7 @@ sub HELP_MESSAGE {
 			"  -t\t\tTests given regex by -r against URL given by -u\n" .
 			"  -r <regex>\tSpecifies regular expression for testing with -t option\n" .
 			"  -u <url>\tSpecifies URL address for testing with -t option\n" .
-			"  -m <limit>\t[Optional] Specifies item limit printed by -t option (default: 5)\n";
+			"  -l <limit>\t[Optional] Specifies item limit printed by -t option (default: 5)\n";
 }
 
 sub VERSION_MESSAGE {
@@ -58,7 +58,7 @@ sub createFeeds {
 			next;
 		}
 
-		my $dt = DateTime->now(time_zone => $LocalTZ);
+		my $dt = DateTime->now(time_zone => $localTZ);
 		my $rss = XML::RSS->new(version => '2.0');
 		my $base = URI->new_abs("/", $item->{"link"})->as_string();
 		$base =~ s/\/$//;
@@ -71,10 +71,10 @@ sub createFeeds {
 			);
 
 		my @matches;
-		my $cnt = $item->{"maxitems"};
+		my $limit = $item->{"maxitems"};
 
 		$item->{"itemregex"} =~ s/\//\\\//;
-		push @matches, [$1, $2, $3] while $content =~ /$item->{"itemregex"}/gs and $cnt-- > 0;
+		push @matches, [$1, $2, $3] while $content =~ /$item->{"itemregex"}/gs and $limit-- > 0;
 
 		for my $m (@matches) {
 			$rss->add_item(	title => @$m[$item->{"titleidx"}], 
@@ -88,7 +88,7 @@ sub createFeeds {
 }
 
 sub testRegex {
-	my($regex, $url, $max) = @_;
+	my($regex, $url, $limit) = @_;
 
 	my $content = get($url);
 	if (not defined $content) {
@@ -97,7 +97,7 @@ sub testRegex {
 	}
 
 	$regex =~ s/\//\\\//;
-	while($content =~ /$regex/gs and $max-- > 0) {
+	while($content =~ /$regex/gs and $limit-- > 0) {
 		print "\$0: $1\n\$1: $2\n\$2: " . substr($3, 0, 50) . "\n" . ('-' x 30) . "\n";
 	}
 }
