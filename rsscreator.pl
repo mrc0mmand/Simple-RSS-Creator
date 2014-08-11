@@ -61,6 +61,18 @@ sub createFeeds {
 		my $dt = DateTime->now(time_zone => $localTZ);
 		my $rss = XML::RSS->new(version => '2.0');
 		my $base = URI->new_abs("/", $item->{"link"})->as_string();
+		my $oldrss;
+		my $lasttitle;
+
+		if(-e $item->{"file"}) {
+			$oldrss = XML::RSS->new(version => '2.0');
+			$oldrss->parsefile($item->{"file"});
+			if(@{$oldrss->{"items"}}) {
+				print "Assigning value...\n";
+				$lasttitle = @{$oldrss->{"items"}}[0]->{"title"};
+			}
+		}
+
 		$base =~ s/\/$//;
 
 		$rss->channel(
@@ -76,11 +88,24 @@ sub createFeeds {
 		$item->{"itemregex"} =~ s/\//\\\//;
 		push @matches, [$1, $2, $3] while $content =~ /$item->{"itemregex"}/gs and $limit-- > 0;
 
+		$limit = $item->{"maxitems"};
+
 		for my $m (@matches) {
+			last if(defined $lasttitle and $lasttitle eq @$m[$item->{"titleidx"}]);
+
 			$rss->add_item(	title => @$m[$item->{"titleidx"}], 
 							link => ($base . @$m[$item->{"linkidx"}]), 
 							permaLink => ($base . @$m[$item->{"linkidx"}]),
-							description => @$m[$item->{"descidx"}]);
+							description => @$m[$item->{"descidx"}],
+							pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
+			$limit--;
+		}
+
+		if(defined $oldrss and $limit > 0) {
+			foreach my $item (@{$oldrss->{"items"}}) {
+				last if ($limit-- == 0);
+				push @{$rss->{"items"}}, $item;
+			}
 		}
 
 		$rss->save($item->{"file"});
