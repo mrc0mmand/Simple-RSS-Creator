@@ -38,6 +38,10 @@ sub VERSION_MESSAGE {
 	print "Version 0.1\n";
 }
 
+# Parses configuration file and saves the feeds array
+# from config into global array @feeds.
+# Parameters: 
+# - $_[0] = path to config file
 sub parseConfig {
 	local $/;
 	open(FILE, $_[0]) or die "Unable to open config file " . $_[0] . "\n";
@@ -48,10 +52,13 @@ sub parseConfig {
 	@feeds = @{$decoded->{"feeds"}};
 }
 
+# Creates feeds using info saved in @feeds
 sub createFeeds {
 	foreach my $item (@feeds) {
 		print "Processing feed: " . $item->{"title"} . "\n";
 
+		# Gets content of given website.
+		# In case of fail jumps to next feed in @feeds.
 		my $content = get($item->{"link"});
 		if(not defined $content) {
 			print "Unable to open URL " . $item->{"link"} . "\n"; 
@@ -64,17 +71,20 @@ sub createFeeds {
 		my $oldrss;
 		my $lasttitle;
 
+		# Checks if old RSS file exists.
+		# If so, then it loads title of newest item to var $lastttitle.
 		if(-e $item->{"file"}) {
 			$oldrss = XML::RSS->new(version => '2.0');
 			$oldrss->parsefile($item->{"file"});
 			if(@{$oldrss->{"items"}}) {
-				print "Assigning value...\n";
 				$lasttitle = @{$oldrss->{"items"}}[0]->{"title"};
 			}
 		}
 
+		# Removes trailing slash from the base URL address
 		$base =~ s/\/$//;
 
+		# Adds channel info for new RSS file
 		$rss->channel(
 				title => $item->{"title"},
 				link => $item->{"link"},
@@ -85,12 +95,17 @@ sub createFeeds {
 		my @matches;
 		my $limit = $item->{"maxitems"};
 
+		# Escapes and uses regex from config file to parse $limit items from given URL's
+		# content and saves them in two-dimensional array for easier access
 		$item->{"itemregex"} =~ s/\//\\\//;
 		push @matches, [$1, $2, $3] while $content =~ /$item->{"itemregex"}/gs and $limit-- > 0;
 
 		$limit = $item->{"maxitems"};
 
+		# Adds parsed items into new created RSS file
 		for my $m (@matches) {
+			# Compares processed item's title with the newest item's title from old
+			# RSS file. In case of match breaks from the loop.
 			last if(defined $lasttitle and $lasttitle eq @$m[$item->{"titleidx"}]);
 
 			$rss->add_item(	title => @$m[$item->{"titleidx"}], 
@@ -101,6 +116,8 @@ sub createFeeds {
 			$limit--;
 		}
 
+		# Adds items from the old RSS file at the end of the new one
+		# and purges items above the remaining given limit.
 		if(defined $oldrss and $limit > 0) {
 			foreach my $item (@{$oldrss->{"items"}}) {
 				last if ($limit-- == 0);
@@ -112,6 +129,12 @@ sub createFeeds {
 	}
 }
 
+# Tests given regex against given URL's content.
+# In case of match prints $limit matches to standard output.
+# Parameters:
+# - $_[0] = Regular expression
+# - $_[1] = URL address
+# - $_[2] = Limit of results
 sub testRegex {
 	my($regex, $url, $limit) = @_;
 
