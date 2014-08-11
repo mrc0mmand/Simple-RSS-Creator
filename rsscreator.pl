@@ -9,8 +9,8 @@ use URI qw/new_abs/;
 use DateTime;
 use Getopt::Std;
 
+$Getopt::Std::STANDARD_HELP_VERSION = 1;
 our $LocalTZ = DateTime::TimeZone->new(name => 'local');
-our $STANDARD_HELP_VERSION = 1;
 my @feeds;
 my %opts = ();
 
@@ -35,7 +35,7 @@ sub HELP_MESSAGE {
 }
 
 sub VERSION_MESSAGE {
-	print "Version 0.1";
+	print "Version 0.1\n";
 }
 
 sub parseConfig {
