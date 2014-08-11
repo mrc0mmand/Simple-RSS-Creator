@@ -2,6 +2,14 @@
 
 Simple perl script which generates RSS feeds from given website(s) according to options defined in the configuration file.
 
+## Usage
+
+`rsscreator.pl -c config.file` 
+
+If you want to test your regex without writing a config file, you can use script's test feature:
+
+`rsscreator.pl -t -r "[y|Y]our(.*?)rege(x|xp)" https://url.for/rss/feed`
+
 ## Configuration file
 Every feed has its own section in configuration file which consists of:
 * _title_ - Title of feed
