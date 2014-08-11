@@ -72,7 +72,7 @@ sub createFeeds {
 		my $lasttitle;
 
 		# Checks if old RSS file exists.
-		# If so, then it loads title of newest item to var $lastttitle.
+		# If so, then it loads title of the newest item to var $lasttitle.
 		if(-e $item->{"file"}) {
 			$oldrss = XML::RSS->new(version => '2.0');
 			$oldrss->parsefile($item->{"file"});
