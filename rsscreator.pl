@@ -16,11 +16,13 @@ my %opts = ();
 
 getopts('tc:r:u:l:', \%opts);
 
+#TODO: -d param for description size
+
 if($opts{"c"}) {
 	parseConfig($opts{"c"});
 	createFeeds();
 } elsif($opts{"t"} and $opts{"r"} and $opts{"u"}) {
-	testRegex($opts{"r"}, $opts{"u"}, ($opts{"l"} ? $opts{"l"} : 5));
+	testRegex($opts{"r"}, $opts{"u"}, (defined $opts{"l"} ? $opts{"l"} : 5));
 } else {
 	HELP_MESSAGE();
 }
@@ -44,12 +46,25 @@ sub VERSION_MESSAGE {
 # - $_[0] = path to config file
 sub parseConfig {
 	local $/;
-	open(FILE, $_[0]) or die "Unable to open config file " . $_[0] . "\n";
+	open(FILE, $_[0]) or die "[ERROR] Unable to open config file " . $_[0] . "\n";
 	my $json = <FILE>;
 	close FILE;
 
 	my $decoded = decode_json($json);
 	@feeds = @{$decoded->{"feeds"}};
+
+	# Basic config file check
+	foreach my $item (@feeds) {
+		if($item->{"maxitems"} < 1) {
+			die "[ERROR] Feed: \"" . $item->{"title"} . "\": maxitems is out of range (is: " . $item->{"maxitems"} . " | should be: > 0)\n";
+		} elsif($item->{"titleidx"} < 0) {
+			die "[ERROR] Feed: \"" . $item->{"title"} . "\": titleidx is out of range (is: " . $item->{"titleidx"} . " | should be: >= 0)\n";
+		} elsif($item->{"linkidx"} < 0) {
+			die "[ERROR] Feed: \"" . $item->{"title"} . "\": linkidx is out of range (is: " . $item->{"linkidx"} . " | should be: >= 0)\n";
+		} elsif($item->{"descidx"} < 0) {
+			die "[ERROR] Feed: \"" . $item->{"title"} . "\": descidx is out of range (is: " . $item->{"descidx"} . " | should be: >= 0)\n";
+		}
+	}
 }
 
 # Creates feeds using info saved in @feeds
@@ -61,7 +76,7 @@ sub createFeeds {
 		# In case of fail jumps to next feed in @feeds.
 		my $content = get($item->{"link"});
 		if(not defined $content) {
-			print "Unable to open URL " . $item->{"link"} . "\n"; 
+			print STDERR "[ERROR] Unable to open URL " . $item->{"link"} . ". Skipping to next feed...\n"; 
 			next;
 		}
 
@@ -103,7 +118,7 @@ sub createFeeds {
 		$limit = $item->{"maxitems"};
 
 		# Adds parsed items into new created RSS file
-		for my $m (@matches) {
+		foreach my $m (@matches) {
 			# Compares processed item's title with the newest item's title from old
 			# RSS file. In case of match breaks from the loop.
 			last if(defined $lasttitle and $lasttitle eq @$m[$item->{"titleidx"}]);
@@ -140,8 +155,7 @@ sub testRegex {
 
 	my $content = get($url);
 	if (not defined $content) {
-		print "Unable to open URL " . $url . "\n";
-		exit 1;
+		die "[ERROR] Unable to open URL " . $url . "\n";
 	}
 
 	$regex =~ s/\//\\\//;
