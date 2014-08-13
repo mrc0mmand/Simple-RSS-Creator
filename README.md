@@ -43,3 +43,4 @@ The configuration file uses JSON format and allows you to have multiple feeds in
 - DateTime
 - Getopt::Std
 - DBI
+- DBD::SQLite
