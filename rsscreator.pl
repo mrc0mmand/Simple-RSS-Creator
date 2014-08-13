@@ -2,12 +2,14 @@
 
 use strict;
 use warnings;
+use Switch;
 use LWP::Simple;
 use XML::RSS;
 use JSON qw/decode_json/;
 use URI qw/new_abs/;
 use DateTime;
 use Getopt::Std;
+use DBI;
 
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 my $localTZ = DateTime::TimeZone->new(name => 'local');
@@ -57,12 +59,14 @@ sub parseConfig {
 	foreach my $item (@feeds) {
 		if($item->{"maxitems"} < 1) {
 			die "[ERROR] Feed: \"" . $item->{"title"} . "\": maxitems is out of range (is: " . $item->{"maxitems"} . " | should be: > 0)\n";
-		} elsif($item->{"titleidx"} < 0) {
-			die "[ERROR] Feed: \"" . $item->{"title"} . "\": titleidx is out of range (is: " . $item->{"titleidx"} . " | should be: >= 0)\n";
-		} elsif($item->{"linkidx"} < 0) {
-			die "[ERROR] Feed: \"" . $item->{"title"} . "\": linkidx is out of range (is: " . $item->{"linkidx"} . " | should be: >= 0)\n";
-		} elsif($item->{"descidx"} < 0) {
-			die "[ERROR] Feed: \"" . $item->{"title"} . "\": descidx is out of range (is: " . $item->{"descidx"} . " | should be: >= 0)\n";
+		} elsif(lc $item->{"type"} eq "article") {
+			if($item->{"titleidx"} < 0) {
+				die "[ERROR] Feed: \"" . $item->{"title"} . "\": titleidx is out of range (is: " . $item->{"titleidx"} . " | should be: >= 0)\n";
+			} elsif($item->{"linkidx"} < 0) {
+				die "[ERROR] Feed: \"" . $item->{"title"} . "\": linkidx is out of range (is: " . $item->{"linkidx"} . " | should be: >= 0)\n";
+			} elsif($item->{"descidx"} < 0) {
+				die "[ERROR] Feed: \"" . $item->{"title"} . "\": descidx is out of range (is: " . $item->{"descidx"} . " | should be: >= 0)\n";
+			}
 		}
 	}
 }
@@ -72,76 +76,193 @@ sub createFeeds {
 	foreach my $item (@feeds) {
 		print "Processing feed: " . $item->{"title"} . "\n";
 
-		# Gets content of given website.
-		# In case of fail jumps to next feed in @feeds.
-		my $content = get($item->{"link"});
-		if(not defined $content) {
-			print STDERR "[ERROR] Unable to open URL " . $item->{"link"} . ". Skipping to next feed...\n"; 
-			next;
+		switch(lc $item->{"type"}) {
+			case lc "article"	{ typeArticle($item); }
+			case lc "diff"		{ typeDiff($item); }
+			else { print STDERR "[ERROR] Feed: \"" . $item->{"title"} . "\": Unknown feed type \"" . $item->{"type"} . "\", skipping...\n"; }
 		}
+	}
+}
 
-		my $dt = DateTime->now(time_zone => $localTZ);
-		my $rss = XML::RSS->new(version => '2.0');
-		my $base = URI->new_abs("/", $item->{"link"})->as_string();
-		my $oldrss;
-		my $lasttitle;
+# Used for feeds with defined type "article" in the config file.
+# Parses given website and creates an item in RSS for each
+# parsed article.
+# Params:
+# - $_[0] = The feed item from configuration file
+sub typeArticle {
+	my $item = $_[0];
 
-		# Checks if old RSS file exists.
-		# If so, then it loads title of the newest item to var $lasttitle.
-		if(-e $item->{"file"}) {
-			$oldrss = XML::RSS->new(version => '2.0');
-			$oldrss->parsefile($item->{"file"});
-			if(@{$oldrss->{"items"}}) {
-				$lasttitle = @{$oldrss->{"items"}}[0]->{"title"};
+	# Gets content of given website.
+	my $content = get($item->{"link"});
+	if(not defined $content) {
+		print STDERR "[ERROR] Feed: \"" . $item->{"title"} . "\": Unable to open URL " . $item->{"link"} . ", skipping...\n"; 
+		return;
+	}
+
+	my $dt = DateTime->now(time_zone => $localTZ);
+	my $rss = XML::RSS->new(version => '2.0');
+	my $base = URI->new_abs("/", $item->{"link"})->as_string();
+	my $oldrss;
+	my $lasttitle;
+
+	# Checks if old RSS file exists.
+	# If so, then it loads title of the newest item to var $lasttitle.
+	if(-e $item->{"file"}) {
+		$oldrss = XML::RSS->new(version => '2.0');
+		$oldrss->parsefile($item->{"file"});
+		if(@{$oldrss->{"items"}}) {
+			$lasttitle = @{$oldrss->{"items"}}[0]->{"title"};
+		}
+	}
+
+	# Removes trailing slash from the base URL address
+	$base =~ s/\/$//;
+
+	# Adds channel info for new RSS file
+	$rss->channel(
+			title => $item->{"title"},
+			link => $item->{"link"},
+			description => $item->{"description"},
+			lastBuildDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
+
+	my @matches;
+	my $limit = $item->{"maxitems"};
+
+	# Escapes and uses regex from config file to parse $limit items from given URL's
+	# content and saves them in two-dimensional array for easier access
+	$item->{"itemregex"} =~ s/\//\\\//;
+	push @matches, [$1, $2, $3] while $content =~ /$item->{"itemregex"}/gs and $limit-- > 0;
+
+	$limit = $item->{"maxitems"};
+
+	# Adds parsed items into new created RSS file
+	foreach my $m (@matches) {
+		# Compares processed item's title with the newest item's title from old
+		# RSS file. In case of match breaks from the loop.
+		last if(defined $lasttitle and $lasttitle eq @$m[$item->{"titleidx"}]);
+
+		$rss->add_item(	
+			title => @$m[$item->{"titleidx"}], 
+			link => ($base . @$m[$item->{"linkidx"}]), 
+			permaLink => ($base . @$m[$item->{"linkidx"}]),
+			description => @$m[$item->{"descidx"}],
+			pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
+
+		$limit--;
+	}
+
+	# Adds items from the old RSS file at the end of the new one
+	# and purges items above the remaining given limit.
+	if(defined $oldrss and $limit > 0) {
+		foreach my $item (@{$oldrss->{"items"}}) {
+			last if ($limit-- == 0);
+			push @{$rss->{"items"}}, $item;
+		}
+	}
+
+	$rss->save($item->{"file"});
+}
+
+# Used for feeds with defined type "diff" in the config file.
+# Gets website's content and makes a diff with cached version.
+# If the feed or the cached version doesn't exist, it creates
+# the RSS file with initial item and makes initial content cache.
+# Params:
+# - $_[0] = The feed item from configuration file
+sub typeDiff {
+	my $item = $_[0];
+
+	# Gets content of given website.
+	my $content = get($item->{"link"});
+	if(not defined $content) {
+		print STDERR "[ERROR] Feed: \"" . $item->{"title"} . "\": Unable to open URL " . $item->{"link"} . ". Skipping...\n"; 
+		return;
+	}
+
+	# If regex is defined or non-empty, apply it to the website's content
+	if(defined $item->{"itemregex"} and $item->{"itemregex"} ne "") {
+		$item->{"itemregex"} =~ s/\//\\\//;
+		my (@m) = $content =~ /$item->{"itemregex"}/s;
+		$content = join('', @m);
+	}
+
+	my $dt = DateTime->now(time_zone => $localTZ);
+	my $rss = XML::RSS->new(version => '2.0');
+	my $dbh = DBI->connect("dbi:SQLite:dbname=rsscreator.db", "", "", {RaiseError => 1}) or die $DBI::errstr;
+	$dbh->do("CREATE TABLE IF NOT EXISTS data('url' VARCHAR PRIMARY KEY NOT NULL, 'content' VARCHAR);");
+
+	my $sth = $dbh->prepare("SELECT content FROM data WHERE url = ?");
+	$sth->bind_param(1, $item->{"link"});
+	$sth->execute();
+
+	my ($data) = $sth->fetchrow_array();
+
+	# If the RSS file and cached data exist, do a diff of them.
+	# Otherwise create both with initial data.
+	if(-e $item->{"file"} and defined $data) {
+		if($content ne $data) {
+			my $diff = getDiff($data, $content);
+			$rss->parsefile($item->{"file"});
+
+			# Removes the oldest items from the RSS
+			while(@{$rss->{"items"}} >= $item->{"maxitems"}) {
+				pop(@{$rss->{'items'}})
 			}
+
+			$rss->add_item(
+				title => "Content has changed! (" . $item->{"title"} . ")", 
+				link => $item->{"link"}, 
+				permaLink => $item->{"link"},
+				description => $diff,
+				mode => "insert",
+				pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
+			
+			$rss->save($item->{"file"});
+			$sth->finish();
+			$sth = $dbh->prepare("REPLACE INTO data VALUES(?, ?);");
+			$sth->bind_param(1, $item->{"link"});
+			$sth->bind_param(2, $content);
+			$sth->execute();
 		}
-
-		# Removes trailing slash from the base URL address
-		$base =~ s/\/$//;
-
-		# Adds channel info for new RSS file
+	} else {
 		$rss->channel(
 				title => $item->{"title"},
 				link => $item->{"link"},
 				description => $item->{"description"},
-				lastBuildDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z")
-			);
+				lastBuildDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
 
-		my @matches;
-		my $limit = $item->{"maxitems"};
-
-		# Escapes and uses regex from config file to parse $limit items from given URL's
-		# content and saves them in two-dimensional array for easier access
-		$item->{"itemregex"} =~ s/\//\\\//;
-		push @matches, [$1, $2, $3] while $content =~ /$item->{"itemregex"}/gs and $limit-- > 0;
-
-		$limit = $item->{"maxitems"};
-
-		# Adds parsed items into new created RSS file
-		foreach my $m (@matches) {
-			# Compares processed item's title with the newest item's title from old
-			# RSS file. In case of match breaks from the loop.
-			last if(defined $lasttitle and $lasttitle eq @$m[$item->{"titleidx"}]);
-
-			$rss->add_item(	title => @$m[$item->{"titleidx"}], 
-							link => ($base . @$m[$item->{"linkidx"}]), 
-							permaLink => ($base . @$m[$item->{"linkidx"}]),
-							description => @$m[$item->{"descidx"}],
-							pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
-			$limit--;
-		}
-
-		# Adds items from the old RSS file at the end of the new one
-		# and purges items above the remaining given limit.
-		if(defined $oldrss and $limit > 0) {
-			foreach my $item (@{$oldrss->{"items"}}) {
-				last if ($limit-- == 0);
-				push @{$rss->{"items"}}, $item;
-			}
-		}
+		$rss->add_item(
+			title => "Feed has been sucessfully created!", 
+			link => $item->{"link"}, 
+			permaLink => $item->{"link"},
+			description => "",
+			pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
 
 		$rss->save($item->{"file"});
-	}
+		$sth->finish();
+		$sth = $dbh->prepare("REPLACE INTO data VALUES(?, ?);");
+		$sth->bind_param(1, $item->{"link"});
+		$sth->bind_param(2, $content);
+		$sth->execute();
+	} 
+
+	$sth->finish();
+	$dbh->disconnect();
+}
+
+# Gets changed content
+# Params:
+# - $_[0] = Old content
+# - $_[1] = New content
+sub getDiff {
+	my @old = split('\n', $_[0]);
+	my @new = split('\n', $_[1]);
+	my %diff1;
+
+	@diff1{@new} = @new;
+	delete @diff1{@old};
+
+	return join('', reverse (keys %diff1));
 }
 
 # Tests given regex against given URL's content.
