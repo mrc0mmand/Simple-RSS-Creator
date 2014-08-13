@@ -1,2 +1,4 @@
 test/
 rsscreator.db
+*.rss
+!feeds/example.rss

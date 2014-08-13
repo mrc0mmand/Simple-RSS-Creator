@@ -30,8 +30,8 @@ Every feed has its own section in configuration file which consists of:
 Options below are required only for **article** type:
 
 * **titleidx** - Index of title matching group in **itemregex** (counted from zero)
-* **linkidx** - Index of link matching group in **itemregex** 
-* **descidx** - Index of description matching group in **itemregex** 
+* **linkidx** - Index of link matching group in **itemregex**. If set to negative value, **link** will be used.
+* **descidx** - Index of description matching group in **itemregex**. If set to negative value, empty description will be used.
 
 The configuration file uses JSON format and allows you to have multiple feeds in one config file.
 

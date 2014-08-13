@@ -59,14 +59,6 @@ sub parseConfig {
 	foreach my $item (@feeds) {
 		if($item->{"maxitems"} < 1) {
 			die "[ERROR] Feed: \"" . $item->{"title"} . "\": maxitems is out of range (is: " . $item->{"maxitems"} . " | should be: > 0)\n";
-		} elsif(lc $item->{"type"} eq "article") {
-			if($item->{"titleidx"} < 0) {
-				die "[ERROR] Feed: \"" . $item->{"title"} . "\": titleidx is out of range (is: " . $item->{"titleidx"} . " | should be: >= 0)\n";
-			} elsif($item->{"linkidx"} < 0) {
-				die "[ERROR] Feed: \"" . $item->{"title"} . "\": linkidx is out of range (is: " . $item->{"linkidx"} . " | should be: >= 0)\n";
-			} elsif($item->{"descidx"} < 0) {
-				die "[ERROR] Feed: \"" . $item->{"title"} . "\": descidx is out of range (is: " . $item->{"descidx"} . " | should be: >= 0)\n";
-			}
 		}
 	}
 }
@@ -143,9 +135,8 @@ sub typeArticle {
 
 		$rss->add_item(	
 			title => @$m[$item->{"titleidx"}], 
-			link => ($base . @$m[$item->{"linkidx"}]), 
-			permaLink => ($base . @$m[$item->{"linkidx"}]),
-			description => @$m[$item->{"descidx"}],
+			link => ($item->{"linkidx"} < 0) ? $item->{"link"} : ($base . @$m[$item->{"linkidx"}]), 
+			description => ($item->{"descidx"} < 0) ? "" : @$m[$item->{"descidx"}],
 			pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
 
 		$limit--;
@@ -212,7 +203,6 @@ sub typeDiff {
 			$rss->add_item(
 				title => "Content has changed! (" . $item->{"title"} . ")", 
 				link => $item->{"link"}, 
-				permaLink => $item->{"link"},
 				description => $diff,
 				mode => "insert",
 				pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
@@ -234,7 +224,6 @@ sub typeDiff {
 		$rss->add_item(
 			title => "Feed has been sucessfully created!", 
 			link => $item->{"link"}, 
-			permaLink => $item->{"link"},
 			description => "",
 			pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
 

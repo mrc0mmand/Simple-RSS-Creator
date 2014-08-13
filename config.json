@@ -1,15 +1,28 @@
 {
 	"feeds": [
 		{
+			"type": "article",
 			"title": "Example Feed",
 			"link": "https://planet.pidgin.im/",
 			"description": "My Example RSS Feed",
-			"file": "example.rss",
+			"file": "feeds/example.rss",
 			"itemregex": "<h2><a href=\"(.*?)\">(.*?)</a></h2>.*?<div class=\"post\">(.*?)</div>",
 			"maxitems": 30,
 			"titleidx": 1,
 			"linkidx": 0,
 			"descidx": 2
+		},
+		{
+			"type": "article",
+			"title": "Foobar2000",
+			"link": "http://www.foobar2000.org/changelog",
+			"description": "Foobar200 changelog",
+			"file": "feeds/foobar.rss",
+			"itemregex": "<H3><A name=\"section[0-9]*\".*?>(.*?)</A></H3>.*?(<UL>(.*?)</UL>)",
+			"maxitems": 30,
+			"titleidx": 0,
+			"linkidx": -1,
+			"descidx": 1
 		}
 	]
 }
