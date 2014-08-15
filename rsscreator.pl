@@ -16,15 +16,13 @@ my $localTZ = DateTime::TimeZone->new(name => 'local');
 my @feeds;
 my %opts = ();
 
-getopts('tc:r:u:l:', \%opts);
-
-#TODO: -d param for description size
+getopts('tc:r:u:l:s:', \%opts);
 
 if($opts{"c"}) {
 	parseConfig($opts{"c"});
 	createFeeds();
 } elsif($opts{"t"} and $opts{"r"} and $opts{"u"}) {
-	testRegex($opts{"r"}, $opts{"u"}, (defined $opts{"l"} ? $opts{"l"} : 5));
+	testRegex($opts{"r"}, $opts{"u"}, (defined $opts{"l"} ? $opts{"l"} : 5), (defined $opts{"s"} ? $opts{"s"} : 100));
 } else {
 	HELP_MESSAGE();
 }
@@ -35,7 +33,8 @@ sub HELP_MESSAGE {
 			"  -t\t\tTests given regex by -r against URL given by -u\n" .
 			"  -r <regex>\tSpecifies regular expression for testing with -t option\n" .
 			"  -u <url>\tSpecifies URL address for testing with -t option\n" .
-			"  -l <limit>\t[Optional] Specifies item limit printed by -t option (default: 5)\n";
+			"  -l <limit>\t[Optional] Specifies item limit printed by -t option (default: 5)\n" .
+			"  -s <limit>\t[Optional] Specifies max string length printed by -t option (default: 100)\n";
 }
 
 sub VERSION_MESSAGE {
@@ -260,8 +259,9 @@ sub getDiff {
 # - $_[0] = Regular expression
 # - $_[1] = URL address
 # - $_[2] = Limit of results
+# - #_[3] = Char limit (used only for output [for better clarity])
 sub testRegex {
-	my($regex, $url, $limit) = @_;
+	my($regex, $url, $limit, $chars) = @_;
 
 	my $content = get($url);
 	if (not defined $content) {
@@ -275,7 +275,7 @@ sub testRegex {
 	binmode STDOUT, ":utf8";
 
 	foreach my $match (@m) {
-		print "[\$" . ($i++ % $cg) . "] " . $match . "\n";
+		print "[\$" . ($i++ % $cg) . "] " . substr($match, 0, $chars)  . "\n";
 		
 		if($i % $cg == 0) {
 			print (('-' x 30) . "\n") ;
