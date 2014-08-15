@@ -23,7 +23,7 @@ Every feed has its own section in configuration file which consists of:
 * **description** - Feed description
 * **file** - Location and filename of created feed
 * **itemregex** - Usage of **itemregex** depends on specified feed **type**
-  * **article** - [Required] Regular expression of one feed item. Regex must have at least three capturing groups (for title, link and description).
+  * **article** - [Required] Regular expression of one feed item. Regex must have at least one capturing group (for title). The appropriate indexes below must be set to negative values if their capturing groups are omitted in the regex.
   * **diff** - [Optional] If not empty, given regex is used to specify the area for creating the final diff.
 * **maxitems** - Max items for given feed (items above this limit will be ignored)
 
