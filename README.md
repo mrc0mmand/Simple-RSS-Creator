@@ -23,15 +23,15 @@ Every feed has its own section in configuration file which consists of:
 * **description** - Feed description
 * **file** - Location and filename of created feed
 * **itemregex** - Usage of **itemregex** depends on specified feed **type**
-  * **article** - [Required] Regular expression of one feed item. Regex must have at least three matching groups (for title, link and description).
+  * **article** - [Required] Regular expression of one feed item. Regex must have at least three capturing groups (for title, link and description).
   * **diff** - [Optional] If not empty, given regex is used to specify the area for creating the final diff.
 * **maxitems** - Max items for given feed (items above this limit will be ignored)
 
 Options below are required only for **article** type:
 
-* **titleidx** - Index of title matching group in **itemregex** (counted from zero)
-* **linkidx** - Index of link matching group in **itemregex**. If set to negative value, **link** will be used.
-* **descidx** - Index of description matching group in **itemregex**. If set to negative value, empty description will be used.
+* **titleidx** - Index of title capturing group in **itemregex** (counted from zero)
+* **linkidx** - Index of link capturing group in **itemregex**. If set to negative value, **link** will be used.
+* **descidx** - Index of description capturing group in **itemregex**. If set to negative value, empty description will be used.
 
 The configuration file uses JSON format and allows you to have multiple feeds in one config file.
 

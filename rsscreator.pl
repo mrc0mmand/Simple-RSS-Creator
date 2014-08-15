@@ -123,7 +123,7 @@ sub typeArticle {
 	# Escapes and uses regex from config file to parse $limit items from given URL's
 	# content and saves them in two-dimensional array for easier access
 	$item->{"itemregex"} =~ s/\//\\\//;
-	push @matches, [$1, $2, $3] while $content =~ /$item->{"itemregex"}/gs and $limit-- > 0;
+	push @matches, [$1, $2, $3] while $content =~ m/$item->{"itemregex"}/gs and $limit-- > 0;
 
 	$limit = $item->{"maxitems"};
 
@@ -173,7 +173,7 @@ sub typeDiff {
 	# If regex is defined or non-empty, apply it to the website's content
 	if(defined $item->{"itemregex"} and $item->{"itemregex"} ne "") {
 		$item->{"itemregex"} =~ s/\//\\\//;
-		my (@m) = $content =~ /$item->{"itemregex"}/s;
+		my (@m) = $content =~ m/$item->{"itemregex"}/s;
 		$content = join('', @m);
 	}
 
@@ -256,7 +256,7 @@ sub getDiff {
 
 # Tests given regex against given URL's content.
 # In case of match prints $limit matches to standard output.
-# Parameters:
+# Params:
 # - $_[0] = Regular expression
 # - $_[1] = URL address
 # - $_[2] = Limit of results
@@ -269,7 +269,28 @@ sub testRegex {
 	}
 
 	$regex =~ s/\//\\\//;
-	while($content =~ /$regex/gs and $limit-- > 0) {
-		print "\$0: $1\n\$1: $2\n\$2: " . substr($3, 0, 50) . "\n" . ('-' x 30) . "\n";
+	my @m = $content =~ m/$regex/gs;
+	my $cg = captGroups($regex);
+	my $i = 0;
+	binmode STDOUT, ":utf8";
+
+	foreach my $match (@m) {
+		print "[\$" . ($i++ % $cg) . "] " . $match . "\n";
+		
+		if($i % $cg == 0) {
+			print (('-' x 30) . "\n") ;
+			$limit--;
+		}
+		
+		last if $limit <= 0;
 	}
+}
+
+# Returns count of capturing groups in given regex
+# Params:
+# - $_[0] = Regular expression
+sub captGroups {
+	my $regex = shift;
+	"" =~ /|$regex/;
+	return $#+;
 }
