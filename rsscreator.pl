@@ -43,7 +43,7 @@ sub VERSION_MESSAGE {
 
 # Parses configuration file and saves the feeds array
 # from config into global array @feeds.
-# Parameters: 
+# Params:
 # - $_[0] = path to config file
 sub parseConfig {
 	local $/;
