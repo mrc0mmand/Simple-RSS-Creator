@@ -44,3 +44,4 @@ The configuration file uses JSON format and allows you to have multiple feeds in
 - Getopt::Std
 - DBI
 - DBD::SQLite
+- Digest::MD5
