@@ -31,6 +31,7 @@ use DateTime;
 use Getopt::Std;
 use DBI;
 use Digest::MD5 qw/md5_hex/;
+use Encode qw/encode_utf8/;
 
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 my $localTZ = DateTime::TimeZone->new(name => 'local');
@@ -156,7 +157,7 @@ sub typeArticle {
 		$rss->add_item(	
 			title => @$m[$item->{"titleidx"}], 
 			link => ($item->{"linkidx"} < 0) ? $item->{"link"} : ($base . @$m[$item->{"linkidx"}]), 
-			guid => ($item->{"linkidx"} < 0) ? md5_hex(@$m[$item->{"titleidx"}]) : ($base . @$m[$item->{"linkidx"}]), 
+			guid => ($item->{"linkidx"} < 0) ? md5_hex(encode_utf8(@$m[$item->{"titleidx"}])) : ($base . @$m[$item->{"linkidx"}]), 
 			description => ($item->{"descidx"} < 0) ? "" : @$m[$item->{"descidx"}],
 			pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
 
@@ -224,7 +225,7 @@ sub typeDiff {
 			$rss->add_item(
 				title => "Content has changed! (" . $item->{"title"} . ")", 
 				link => $item->{"link"},
-				guid => md5_hex($diff),
+				guid => md5_hex(encode_utf8($diff)),
 				description => $diff,
 				mode => "insert",
 				pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
