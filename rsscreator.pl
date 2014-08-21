@@ -222,6 +222,8 @@ sub typeDiff {
 				pop(@{$rss->{'items'}})
 			}
 
+			$rss->channel(lastBuildDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
+			
 			$rss->add_item(
 				title => "Content has changed! (" . $item->{"title"} . ")", 
 				link => $item->{"link"},
