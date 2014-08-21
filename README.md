@@ -45,3 +45,4 @@ The configuration file uses JSON format and allows you to have multiple feeds in
 - DBI
 - DBD::SQLite
 - Digest::MD5
+- Encode
