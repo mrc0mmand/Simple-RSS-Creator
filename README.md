@@ -15,21 +15,21 @@ Optionally, you can specify number of items you want to parse with `-l xx` and l
 ## Configuration file
 Every feed has its own section in configuration file which consists of:
 
-* **type** - Type of RSS creation mode
+* **type** - Type of RSS creation mode.
   * **article** - A RSS item is created for each website article parsed by **itemregex**. Used for blogs, news sites, etc.
   * **diff** - A RSS item is created for each change of website content. The **itemregex** can be used for specifying the area from which the diff is created.
-* **title** - Title of feed
-* **link** - Link from which feed will be created
-* **description** - Feed description
-* **file** - Location and filename of created feed
-* **itemregex** - Usage of **itemregex** depends on specified feed **type**
+* **title** - Title of feed.
+* **link** - Link from which feed will be created.
+* **description** - Feed description.
+* **file** - Location and filename of created feed.
+* **itemregex** - Usage of **itemregex** depends on specified feed **type**.
   * **article** - [Required] Regular expression of one feed item. Regex must have at least one capturing group (for title). The appropriate indexes below must be set to negative values if their capturing groups are omitted in the regex.
   * **diff** - [Optional] If not empty, given regex is used to specify the area for creating the final diff.
-* **maxitems** - Max items for given feed (items above this limit will be ignored)
+* **maxitems** - Max items for given feed (items above this limit will be ignored).
 
 Options below are required only for **article** type:
 
-* **titleidx** - Index of title capturing group in **itemregex** (counted from zero)
+* **titleidx** - Index of title capturing group in **itemregex** (counted from zero).
 * **linkidx** - Index of link capturing group in **itemregex**. If set to negative value, **link** will be used.
 * **descidx** - Index of description capturing group in **itemregex**. If set to negative value, empty description will be used.
 
