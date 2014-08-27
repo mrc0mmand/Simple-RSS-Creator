@@ -161,6 +161,7 @@ sub typeArticle {
 			description => ($item->{"descidx"} < 0) ? "" : @$m[$item->{"descidx"}],
 			pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
 
+		$dt->subtract(minutes => 1);
 		$limit--;
 	}
 
