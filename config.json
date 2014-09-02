@@ -23,6 +23,19 @@
 			"titleidx": 0,
 			"linkidx": -1,
 			"descidx": 1
+		},
+		{
+			"type": "article",
+			"title": "Enigmail news",
+			"link": "https://enigmail.net/news/index.php",
+			"description": "Enigmail news archive",
+			"file": "feeds/enigmail.rss",
+			"itemregex": "<li>(?=(?=<a name=.*?><p>)|(?=<p>))(.*?)</p>(\\s*</li>\\s*(<ul>.*?</ul>))?.*?</li>",
+			"arearegex": "<div id=\"content\">.*?<ul>(.*)</ul>.*?</div>",
+			"maxitems": 30,
+			"titleidx": 0,
+			"linkidx": -1,
+			"descidx": 2
 		}
 	]
 }
