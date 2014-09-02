@@ -38,13 +38,13 @@ my $localTZ = DateTime::TimeZone->new(name => 'local');
 my @feeds;
 my %opts = ();
 
-getopts('tc:r:u:l:s:', \%opts);
+getopts('tc:r:u:l:s:a:', \%opts);
 
 if($opts{"c"}) {
 	parseConfig($opts{"c"});
 	createFeeds();
 } elsif($opts{"t"} and $opts{"r"} and $opts{"u"}) {
-	testRegex($opts{"r"}, $opts{"u"}, (defined $opts{"l"} ? $opts{"l"} : 5), (defined $opts{"s"} ? $opts{"s"} : 100));
+	testRegex($opts{"r"}, $opts{"u"}, (defined $opts{"l"} ? $opts{"l"} : 5), (defined $opts{"s"} ? $opts{"s"} : 100), $opts{"a"});
 } else {
 	HELP_MESSAGE();
 }
@@ -112,6 +112,12 @@ sub typeArticle {
 		return;
 	}
 
+	# Gets only given area from content defined by 'area' regex in configuration file
+	if(defined $item->{"arearegex"}) {
+		$item->{"arearegex"} =~ s/\//\\\//;
+		($content) = $content =~ m/$item->{"arearegex"}/s;
+	}
+
 	my $dt = DateTime->now(time_zone => $localTZ);
 	my $rss = XML::RSS->new(version => '2.0');
 	my $base = URI->new_abs("/", $item->{"link"})->as_string();
@@ -154,11 +160,12 @@ sub typeArticle {
 		# RSS file. In case of match breaks from the loop.
 		last if(defined $lasttitle and $lasttitle eq @$m[$item->{"titleidx"}]);
 
+		# This is probably not the cleanest solution...
 		$rss->add_item(	
 			title => @$m[$item->{"titleidx"}], 
 			link => ($item->{"linkidx"} < 0) ? $item->{"link"} : ($base . @$m[$item->{"linkidx"}]), 
 			guid => ($item->{"linkidx"} < 0) ? md5_hex(encode_utf8(@$m[$item->{"titleidx"}])) : ($base . @$m[$item->{"linkidx"}]), 
-			description => ($item->{"descidx"} < 0) ? "" : @$m[$item->{"descidx"}],
+			description => ($item->{"descidx"} < 0 or not defined @$m[$item->{"descidx"}]) ? "" : @$m[$item->{"descidx"}],
 			pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
 
 		$dt->subtract(minutes => 1);
@@ -193,10 +200,10 @@ sub typeDiff {
 		return;
 	}
 
-	# If regex is defined or non-empty, apply it to the website's content
-	if(defined $item->{"itemregex"} and $item->{"itemregex"} ne "") {
-		$item->{"itemregex"} =~ s/\//\\\//;
-		my (@m) = $content =~ m/$item->{"itemregex"}/s;
+	# If arearegex is defined or non-empty, apply it to the website's content
+	if(defined $item->{"arearegex"} and $item->{"arearegex"} ne "") {
+		$item->{"arearegex"} =~ s/\//\\\//;
+		my (@m) = $content =~ m/$item->{"arearegex"}/s;
 		$content = join('', @m);
 	}
 
@@ -289,11 +296,16 @@ sub getDiff {
 # - $_[2] = Limit of results
 # - #_[3] = Char limit (used only for output [for better clarity])
 sub testRegex {
-	my($regex, $url, $limit, $chars) = @_;
+	my($regex, $url, $limit, $chars, $area) = @_;
 
 	my $content = get($url);
-	if (not defined $content) {
+	if(not defined $content) {
 		die "[ERROR] Unable to open URL " . $url . "\n";
+	}
+
+	if(defined $area) {
+		$area =~ s/\//\\\//;
+		($content) = $content =~ m/$area/s;
 	}
 
 	$regex =~ s/\//\\\//;
