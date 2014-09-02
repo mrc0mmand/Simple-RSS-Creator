@@ -56,7 +56,8 @@ sub HELP_MESSAGE {
 			"  -r <regex>\tSpecifies regular expression for testing with -t option\n" .
 			"  -u <url>\tSpecifies URL address for testing with -t option\n" .
 			"  -l <limit>\t[Optional] Specifies item limit printed by -t option (default: 5)\n" .
-			"  -s <limit>\t[Optional] Specifies max string length printed by -t option (default: 100)\n";
+			"  -s <limit>\t[Optional] Specifies max string length printed by -t option (default: 100)\n" .
+			"  -a <regex>\t[Optional] Specifies the area from which items will be parsed by given regex\n";
 }
 
 sub VERSION_MESSAGE {

@@ -10,7 +10,7 @@ If you want to test your regex without writing a config file, you can use script
 
 `rsscreator.pl -t -r "[y|Y]our(.*?)rege(x|xp)" -u https://url.for/rss/feed`
 
-Optionally, you can specify number of items you want to parse with `-l xx` and limit strings length by `-s xx`.
+Optionally, you can specify number of items you want to parse with `-l xx`, limit strings length by `-s xx` and/or specify an area from which the items will be parsed by `-a regex`.
 
 ## Configuration file
 Every feed has its own section in configuration file which consists of:
