@@ -2,7 +2,7 @@
 
 # Simple RSS Creator
 #
-#  Copyright 2014 by Frantisek Sumsal <frantisek.sumsal@gmail.com>
+#  Copyright 2014 by Frantisek Sumsal <frantisek@sumsal.com>
 # 
 # Simple RSS Creator is free software: you can redistribute 
 # it and/or modify it under the terms of the GNU General Public 
@@ -37,6 +37,7 @@ $Getopt::Std::STANDARD_HELP_VERSION = 1;
 my $localTZ = DateTime::TimeZone->new(name => 'local');
 my @feeds;
 my %opts = ();
+binmode STDOUT, ":utf8";
 
 getopts('tc:r:u:l:s:a:', \%opts);
 
@@ -219,8 +220,8 @@ sub typeDiff {
 
 	my ($data) = $sth->fetchrow_array();
 
-	# If the RSS file and cached data exist, do a diff of them.
-	# Otherwise create both with initial data.
+	# If the RSS file and cached data exist, makes a diff of them.
+	# Otherwise creates both with initial data.
 	if(-e $item->{"file"} and defined $data) {
 		if($content ne $data) {
 			my $diff = getDiff($data, $content);
@@ -240,8 +241,10 @@ sub typeDiff {
 				description => $diff,
 				mode => "insert",
 				pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
-			
+
 			$rss->save($item->{"file"});
+
+			# Updates the diff in the SQLite database
 			$sth->finish();
 			$sth = $dbh->prepare("REPLACE INTO data VALUES(?, ?);");
 			$sth->bind_param(1, $item->{"link"});
@@ -263,6 +266,8 @@ sub typeDiff {
 			pubDate => $dt->strftime("%a, %d %b %Y %H:%M:%S %z"));
 
 		$rss->save($item->{"file"});
+
+		# Saves an initial diff to SQLite database
 		$sth->finish();
 		$sth = $dbh->prepare("REPLACE INTO data VALUES(?, ?);");
 		$sth->bind_param(1, $item->{"link"});
@@ -313,7 +318,6 @@ sub testRegex {
 	my @m = $content =~ m/$regex/gs;
 	my $cg = captGroups($regex);
 	my $i = 0;
-	binmode STDOUT, ":utf8";
 
 	foreach my $match (@m) {
 		print "[\$" . ($i++ % $cg) . "] " . substr($match, 0, $chars)  . "\n";
