@@ -2,7 +2,7 @@
 
 # Simple RSS Creator
 #
-#  Copyright 2014 by Frantisek Sumsal <frantisek@sumsal.com>
+#  Copyright 2014 by Frantisek Sumsal <frantisek@sumsal.cz>
 # 
 # Simple RSS Creator is free software: you can redistribute 
 # it and/or modify it under the terms of the GNU General Public 
