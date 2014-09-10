@@ -22,13 +22,13 @@
 
 use strict;
 use warnings;
-use Switch;
-use LWP::Simple;
+use Switch qw/switch/;
+use LWP::Simple qw/get/;
 use XML::RSS;
 use JSON qw/decode_json/;
 use URI qw/new_abs/;
-use DateTime;
-use Getopt::Std;
+use DateTime qw/now strftime subtract/;
+use Getopt::Std qw/getopts/;
 use DBI;
 use Digest::MD5 qw/md5_hex/;
 use Encode qw/encode_utf8/;
