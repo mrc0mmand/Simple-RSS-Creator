@@ -76,6 +76,11 @@ sub parseConfig {
 	close FILE;
 
 	my $decoded = decode_json($json);
+
+	if(not defined $decoded->{"feeds"}) {
+		die "[ERROR] Missing section 'feeds' in " . $_[0] . "\n";
+	}
+
 	@feeds = @{$decoded->{"feeds"}};
 
 	# Basic config file check
