@@ -114,7 +114,7 @@ sub typeArticle {
 
 	# Gets content of given website.
     my $browser = LWP::UserAgent->new;
-	my $response = $browser->get($item->{"link"}, 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:35.0)');
+	my $response = $browser->get($item->{"link"}, 'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:35.0)');
 	if(not $response->is_success) {
 		print STDERR "[ERROR] Feed: \"" . $item->{"title"} . "\": Unable to open URL " . $item->{"link"} . ", skipping...\n"; 
 		return;
