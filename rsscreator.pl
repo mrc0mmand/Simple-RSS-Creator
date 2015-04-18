@@ -113,11 +113,14 @@ sub typeArticle {
 	my $item = $_[0];
 
 	# Gets content of given website.
-	my $content = get($item->{"link"});
-	if(not defined $content) {
+    my $browser = LWP::UserAgent->new;
+	my $response = $browser->get($item->{"link"}, 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:35.0)');
+	if(not $response->is_success) {
 		print STDERR "[ERROR] Feed: \"" . $item->{"title"} . "\": Unable to open URL " . $item->{"link"} . ", skipping...\n"; 
 		return;
-	}
+	} 
+
+    my $content = $response->content;
 
 	# Gets only given area from content defined by 'area' regex in configuration file
 	if(defined $item->{"arearegex"}) {
