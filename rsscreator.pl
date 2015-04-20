@@ -205,13 +205,16 @@ sub typeDiff {
     my $item = $_[0];
 
     # Gets content of given website.
-    my $content = get($item->{"link"});
+    my $browser = LWP::UserAgent->new;
+    my $response = $browser->get($item->{"link"}, 'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:35.0)');
     if(not defined $content) {
         print STDERR "[ERROR] Feed: \"" . $item->{"title"} . "\": Unable to open URL " . $item->{"link"} . 
                      " (" . $response->status_line . "), skipping...\n"; 
         return;
     }
 
+    my $content = $response->content;
+    
     # If arearegex is defined or non-empty, apply it to the website's content
     if(defined $item->{"arearegex"} and $item->{"arearegex"} ne "") {
         $item->{"arearegex"} =~ s/\//\\\//;
