@@ -207,7 +207,8 @@ sub typeDiff {
     # Gets content of given website.
     my $content = get($item->{"link"});
     if(not defined $content) {
-        print STDERR "[ERROR] Feed: \"" . $item->{"title"} . "\": Unable to open URL " . $item->{"link"} . ". Skipping...\n"; 
+        print STDERR "[ERROR] Feed: \"" . $item->{"title"} . "\": Unable to open URL " . $item->{"link"} . 
+                     " (" . $response->status_line . "), skipping...\n"; 
         return;
     }
 
