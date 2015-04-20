@@ -207,7 +207,7 @@ sub typeDiff {
     # Gets content of given website.
     my $browser = LWP::UserAgent->new;
     my $response = $browser->get($item->{"link"}, 'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:35.0)');
-    if(not defined $content) {
+    if(not $response->is_success) {
         print STDERR "[ERROR] Feed: \"" . $item->{"title"} . "\": Unable to open URL " . $item->{"link"} . 
                      " (" . $response->status_line . "), skipping...\n"; 
         return;
